@@ -13,6 +13,8 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
     *   **Troubleshooting**: Encountered an issue with `npx tailwindcss init` due to a version mismatch (Tailwind v4 vs v3 workflow). Downgraded to Tailwind v3.4.17 to ensure compatibility with standard init commands.
     *   Successfully configured Vite, React, TypeScript, Tailwind CSS, and Lucide React.
     *   Created a basic UI shell in `App.tsx` to verify the stack.
+    *   Set up testing environment with **Vitest**, **React Testing Library**, and **jsdom**.
+    *   Verified setup with initial tests in `src/test/App.test.tsx`.
 
 ## 🧠 Backlog & Ideas
 *   [x] Set up React + Vite environment.

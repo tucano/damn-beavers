@@ -79,3 +79,15 @@ npm run dev
 *   **State Management**: [Zustand](https://github.com/pmndrs/zustand) - Minimalist state management (simpler than Redux).
 *   **Styling**: [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework.
 *   **Icons**: [Lucide React](https://lucide.dev/) - Consistent, clean icons.
+*   **Testing**: [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/) - Unit and integration testing.
+
+## 🧪 Running Tests
+
+To run the test suite:
+
+```bash
+npm run test
+```
+
+This will start Vitest in watch mode. Use `q` to quit.
+
