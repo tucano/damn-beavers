@@ -1,6 +1,6 @@
 import { TreePine, Pickaxe } from 'lucide-react';
 
-function App() {
+function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-[#1a1a1a] text-white">
       <div className="text-center space-y-6">
@@ -27,4 +27,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
