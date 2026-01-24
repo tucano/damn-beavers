@@ -4,6 +4,9 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 
 ## 📅 Log Entries
 
+### 2026-01-25
+*   **Documentation**: Added a new "Directory Structure" section to the `README.md` file. The section includes a tree view of the `src` directory and a detailed explanation of each subdirectory's purpose.
+
 ### 2026-01-24
 *   **Project Kickoff**:
     *   The project concept and initial text for `README.md` were generated using **Gemini Canvas**.
