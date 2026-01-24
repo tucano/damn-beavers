@@ -1,116 +1,73 @@
-# 🦫 Damn Beavers
+# React + TypeScript + Vite
 
-An immersive, dark incremental game built with React, Vite, TypeScript, and Zustand. Manage a colony of beavers, engineer massive dams, and transition from a primitive wood-gnawing society to a high-tech hydraulic civilization.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## 🌟 Vision
+Currently, two official plugins are available:
 
-Damn Beavers is a resource management simulator inspired by "Kittens Game". It explores the themes of exponential growth and ecological balance. What starts as a simple clicker evolves into a complex web of industrial automation and planetary-scale environmental manipulation.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## 🏗️ Core Gameplay
+## React Compiler
 
-*   **Harvest**: Collect Wood, Mud, and Food.
-*   **Populate**: Build Lodges to attract more beavers.
-*   **Assign**: Distribute your workforce (Gatherers, Hunters, Engineers).
-*   **Research**: Spend Science to unlock advanced technologies.
-*   **Automate**: Build Dams and Sawmills to generate Hydro Power.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## 🛠️ Tech Stack
+## Expanding the ESLint configuration
 
-*   **Framework**: React + Vite
-*   **Language**: TypeScript (Strict Mode)
-*   **State Management**: Zustand (with Persistence)
-*   **Styling**: Tailwind CSS
-*   **Icons**: Lucide React
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## ⚡ Game Events
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-To keep the gameplay dynamic, Damn Beavers features a variety of events that can trigger based on probability or specific milestones.
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-### Random Events (The "Luck" Factor)
-
-*   **Spring Flood**: Increases water pressure and energy generation for 5 minutes, but carries a 5% chance of damaging a Simple Dam.
-*   **Dry Season**: River levels drop. Food production from fishing is halved, and Hydro Power efficiency decreases.
-*   **Wandering Kit**: A lone beaver arrives at your colony. If you have space in a Lodge, they join for free; otherwise, they leave a small gift of "Wild Berries" (Food).
-*   **Termite Infestation**: A temporary debuff that slowly consumes 1% of your Wood reserves every tick for 30 seconds.
-
-### Narrative Milestones (The "Lore")
-
-*   **The Great Collapse**: Occurs when you build your first Massive Dam. Unlocks the "Safety Engineering" research branch.
-*   **The First Spark**: Triggered upon generating 100 Hydro Power. A message appears: "The water hums with a new kind of power. We are no longer just builders; we are masters of lightning."
-*   **Timber Shortage**: If the forest is over-harvested, a "Conservationist Beaver" appears, offering a choice: slow down production for a permanent efficiency bonus, or push forward and risk a permanent decrease in forest regrowth.
-
-## 🔬 Late-Game Mechanics
-
-As your empire grows, the scale of management shifts:
-
-*   **The Turbine Grid**: Link multiple dams to create a power grid. Energy becomes a resource required to run "Deep-Gnaw Excavators."
-*   **Logistics & Trade**: Build "River Barges" to trade excess Fur and Fish with neighboring animal civilizations (The Otter Syndicate, The Squirrel Cartel).
-*   **Environmental Impact**: Monitor the "Planetary Humidity" index. High levels unlock "Rain Seeders," while low levels lead to "Desertification" risks.
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-*   Node.js (v18+)
-*   npm or yarn
-
-### Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/tucano/damn-beavers.git
-cd damn-beavers
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-Install dependencies:
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```bash
-npm install
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-Start the development server:
-
-```bash
-npm run dev
-```
-
-## 📊 Technical Architecture
-
-### Game Loop
-
-The engine runs on a `setInterval` (1 tick/second) that handles:
-
-*   **Resource Generation**: `sum(Job * Rate) * Bonuses`
-*   **Consumption**: `Population * Food_Per_Beaver`
-*   **Event Triggering**: A probability check (e.g., 0.1% per tick) to launch a Random Event.
-
-### State Schema
-
-Managed via Zustand for high performance and easy persistence:
-
-```typescript
-interface BeaverState {
-  resources: { [key: string]: { amount: number; max: number; rate: number } };
-  buildings: { [key: string]: number };
-  beavers: { total: number; jobs: { [key: string]: number } };
-  unlocks: string[];
-  activeEvents: string[]; // Track current buffs/debuffs
-}
-```
-
-## 🗺️ Roadmap
-
-*   **Phase 1 (The Wood Era)**: MVP with basic clicking and population growth.
-*   **Phase 2 (The Engineering Era)**: Tech tree, Science, and storage caps.
-*   **Phase 3 (The Industrial Era)**: Hydro Power, automated production, and trade.
-
-## 🎨 UI Design
-
-*   **Theme**: Dark Mode (#1a1a1a)
-*   **Primary Colors**: Wood Brown (#8B4513) & Water Blue (#0077BE)
-*   **Layout**: Three-column dashboard (Stats | Actions | Log)
-
----
-
-Created with the help of Gemini - Built for the Beaver Empire.
