@@ -47,6 +47,35 @@ As your empire grows, the scale of management shifts:
 *   **Logistics & Trade**: Build "River Barges" to trade excess Fur and Fish with neighboring animal civilizations (The Otter Syndicate, The Squirrel Cartel).
 *   **Environmental Impact**: Monitor the "Planetary Humidity" index. High levels unlock "Rain Seeders," while low levels lead to "Desertification" risks.
 
+## 📂 Directory Structure
+
+The `src` directory is organized to maintain a clean and scalable codebase. Each directory has a specific role, ensuring a logical separation of concerns.
+
+```
+src/
+├── assets/         # Static assets like images, fonts, and SVGs.
+├── components/     # Reusable UI components (e.g., buttons, cards).
+│   └── ui/         # Generic, low-level UI elements.
+├── hooks/          # Custom React hooks for shared logic.
+├── pages/          # Top-level page components (e.g., Home, Settings).
+├── services/       # Business logic and API interactions.
+├── store/          # Zustand state management stores.
+├── types/          # TypeScript type definitions and interfaces.
+└── utils/          # Utility functions and helpers.
+```
+
+### Directory Roles
+
+*   **`assets`**: Stores all static files that are part of the application's visual identity.
+*   **`components`**: Contains reusable React components.
+    *   **`ui`**: A sub-directory for small, generic UI components that can be used across the application, such as buttons, inputs, and modals.
+*   **`hooks`**: Home to custom React hooks that encapsulate and reuse stateful logic.
+*   **`pages`**: Each file in this directory represents a major view or page in the application.
+*   **`services`**: Handles external interactions, such as fetching data from an API or managing complex business logic.
+*   **`store`**: Contains all Zustand store definitions, which manage the application's global state.
+*   **`types`**: Centralizes all shared TypeScript types and interfaces to ensure type safety and consistency.
+*   **`utils`**: A collection of miscellaneous helper functions that don't fit into other categories.
+
 ## 🚀 Getting Started
 
 ### Prerequisites
