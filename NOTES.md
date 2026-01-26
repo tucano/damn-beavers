@@ -2,7 +2,12 @@
 
 This document serves as a dev log and scratchpad for the **Damn Beavers** project.
 
-## 📅 Log Entries
+## 🪵 Log Entries
+
+### 2026-01-26
+*   **Store**: Converted `beavers` in `useBeaverStore` from a `number` to an array of `Beaver` objects, each with `name`, `age`, and `health`.
+*   **Store**: Added a `BERRY_CONSUMPTION_PER_SECOND` constant to `useBeaverStore`.
+*   **Testing**: Updated tests in `useBeaverStore.test.ts` to reflect the new state structure.
 
 ### 2026-01-26
 *   **UI**: Added a "Dev Controls" section to the `Home` page.
