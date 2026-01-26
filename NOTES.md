@@ -5,6 +5,10 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 ## 📅 Log Entries
 
 ### 2026-01-26
+*   **Store**: Added a `reset` method to `useBerryStore` to set the berry count to zero.
+*   **Testing**: Fixed a state leakage issue in `useBerryStore.test.ts` by adding an `afterEach` hook to reset the store's state, ensuring each test runs in isolation.
+
+### 2026-01-26
 *   **State Management**: Implemented `useBerryStore` using **Zustand** with persistence middleware.
 *   **Testing**: Fixed `TypeError: storage.setItem is not a function` in Vitest by mocking `localStorage` in `src/setupTests.ts`. This ensures that Zustand's `persist` middleware works correctly in the `jsdom` environment.
 
