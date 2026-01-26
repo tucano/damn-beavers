@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Beaver } from '@/types/beaver';
+import type { Beaver } from '@/types/beaver';
 
 export const BERRY_CONSUMPTION_PER_SECOND = 4;
 
