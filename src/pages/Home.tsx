@@ -4,7 +4,7 @@ import { useBeaverStore } from '@/store/useBeaverStore';
 
 function Home() {
   const { berries, increaseBerries, reset } = useBerryStore();
-  const { beavers, addBeavers } = useBeaverStore();
+  const { beavers, addBeavers, resetBeavers } = useBeaverStore();
 
   return (
     <div className="min-h-screen flex flex-col bg-[#1a1a1a] text-white font-sans">
@@ -58,7 +58,7 @@ function Home() {
           </section>
 
           <section className="bg-gray-900/40 border border-gray-800 rounded-xl p-5 shadow-sm">
-             <div className="flex items-center gap-2 mb-4 text-gray-400">
+            <div className="flex items-center gap-2 mb-4 text-gray-400">
               <Settings2 size={18} />
               <h2 className="text-sm font-bold uppercase tracking-widest">Statistics</h2>
             </div>

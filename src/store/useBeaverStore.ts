@@ -7,6 +7,7 @@ interface BeaverState {
   beavers: Beaver[];
   addBeavers: (by: number) => void;
   setBeavers: (beavers: Beaver[]) => void;
+  resetBeavers: () => void;
 }
 
 export const useBeaverStore = create<BeaverState>()(
@@ -25,6 +26,7 @@ export const useBeaverStore = create<BeaverState>()(
           ],
         })),
       setBeavers: (beavers) => set({ beavers }),
+      resetBeavers: () => set({ beavers: [] }),
     }),
     {
       name: 'beaver-storage',
