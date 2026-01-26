@@ -49,7 +49,7 @@ function Home() {
                 + Beaver
               </button>
               <button
-                onClick={reset}
+                onClick={() => { reset(); resetBeavers(); }}
                 className="flex-1 py-2 px-4 bg-red-900/20 hover:bg-red-900/40 text-red-400 text-sm font-semibold rounded-lg transition-all border border-red-900/50"
               >
                 Reset
