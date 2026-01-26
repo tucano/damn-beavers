@@ -4,7 +4,7 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 
 ## 📅 Log Entries
 
-### 2026-01-27
+### 2026-01-26
 *   **UI**: Added a "Dev Controls" section to the `Home` page.
 *   **Feature**: Implemented a "Reset Berries" button within the dev controls to reset the berry count to zero.
 
