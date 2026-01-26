@@ -7,6 +7,9 @@ import { useBerryStore } from '../store/useBerryStore';
 vi.mock('lucide-react', () => ({
     TreePine: () => <div data-testid="tree-pine-icon" />,
     Pickaxe: () => <div data-testid="pickaxe-icon" />,
+    Barrel: () => <div data-testid="barrel-icon" />,
+    ScrollText: () => <div data-testid="scroll-text-icon" />,
+    Settings2: () => <div data-testid="settings-icon" />,
 }));
 
 describe('Home Component', () => {
@@ -20,10 +23,10 @@ describe('Home Component', () => {
         expect(screen.getByText(/Damn Beavers/i)).toBeInTheDocument();
     });
 
-    it('renders the TreePine icons', () => {
+    it('renders the TreePine icon', () => {
         render(<Home />);
         const treeIcons = screen.getAllByTestId('tree-pine-icon');
-        expect(treeIcons).toHaveLength(2);
+        expect(treeIcons).toHaveLength(1);
     });
 
     it('renders the Gather Berries button', () => {
@@ -34,7 +37,7 @@ describe('Home Component', () => {
 
     it('renders initial berries count as 0', () => {
         render(<Home />);
-        expect(screen.getByText('0')).toBeInTheDocument();
+        expect(screen.getByTestId('berry-count-header')).toHaveTextContent('0');
         expect(screen.getByText('Berries')).toBeInTheDocument();
     });
 
@@ -43,16 +46,16 @@ describe('Home Component', () => {
         const button = screen.getByRole('button', { name: /Gather Berries/i });
 
         // Initial state
-        expect(screen.getByText('0')).toBeInTheDocument();
+        expect(screen.getByTestId('berry-count-header')).toHaveTextContent('0');
 
         // Click the button
         fireEvent.click(button);
 
         // Check if the count updated
-        expect(screen.getByText('1')).toBeInTheDocument();
+        expect(screen.getByTestId('berry-count-header')).toHaveTextContent('1');
 
         // Click again
         fireEvent.click(button);
-        expect(screen.getByText('2')).toBeInTheDocument();
+        expect(screen.getByTestId('berry-count-header')).toHaveTextContent('2');
     });
 });

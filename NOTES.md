@@ -5,6 +5,13 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 ## 🪵 Log Entries
 
 ### 2026-01-26
+*   **UI**: Implemented a modern, responsive three-column layout in `Home.tsx` using Tailwind CSS.
+*   **UI**: Added an AppBar with project title, subtitle, and live resource counters.
+*   **UI**: Moved Dev Controls to the left column and arranged buttons in a row for better space utilization.
+*   **UI**: Added an "Activity Log" placeholder in the right column.
+*   **Testing**: Updated `Home.test.tsx` to reflect UI changes and added `data-testid` attributes to resource counters for more reliable testing.
+
+### 2026-01-26
 *   **Store**: Converted `beavers` in `useBeaverStore` from a `number` to an array of `Beaver` objects, each with `name`, `age`, and `health`.
 *   **Store**: Added a `BERRY_CONSUMPTION_PER_SECOND` constant to `useBeaverStore`.
 *   **Testing**: Updated tests in `useBeaverStore.test.ts` to reflect the new state structure.
