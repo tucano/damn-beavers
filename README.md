@@ -8,7 +8,7 @@ Damn Beavers is a resource management simulator inspired by "Kittens Game". It e
 
 ## 🏗️ Core Gameplay
 
-*   **Harvest**: Collect Wood, Mud, and Food.
+*   **Harvest**: Collect Wood, Mud, and Berries (blackberries).
 *   **Populate**: Build Lodges to attract more beavers.
 *   **Assign**: Distribute your workforce (Gatherers, Hunters, Engineers).
 *   **Research**: Spend Science to unlock advanced technologies.
@@ -29,8 +29,8 @@ To keep the gameplay dynamic, Damn Beavers features a variety of events that can
 ### Random Events (The "Luck" Factor)
 
 *   **Spring Flood**: Increases water pressure and energy generation for 5 minutes, but carries a 5% chance of damaging a Simple Dam.
-*   **Dry Season**: River levels drop. Food production from fishing is halved, and Hydro Power efficiency decreases.
-*   **Wandering Kit**: A lone beaver arrives at your colony. If you have space in a Lodge, they join for free; otherwise, they leave a small gift of "Wild Berries" (Food).
+*   **Dry Season**: River levels drop. Berries (blackberries) production from fishing is halved, and Hydro Power efficiency decreases.
+*   **Wandering Kit**: A lone beaver arrives at your colony. If you have space in a Lodge, they join for free; otherwise, they leave a small gift of "Wild Berries" (Berries (blackberries)).
 *   **Termite Infestation**: A temporary debuff that slowly consumes 1% of your Wood reserves every tick for 30 seconds.
 
 ### Narrative Milestones (The "Lore")
@@ -111,7 +111,7 @@ npm run dev
 The engine runs on a `setInterval` (1 tick/second) that handles:
 
 *   **Resource Generation**: `sum(Job * Rate) * Bonuses`
-*   **Consumption**: `Population * Food_Per_Beaver`
+*   **Consumption**: `Population * Berries (blackberries)_Per_Beaver`
 *   **Event Triggering**: A probability check (e.g., 0.1% per tick) to launch a Random Event.
 
 ### State Schema

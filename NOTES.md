@@ -22,7 +22,7 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 ## 🧠 Backlog & Ideas
 *   [x] Set up React + Vite environment.
 *   [x] Configure Tailwind CSS customization (colors, fonts).
-*   [ ] Implement basic resource ticking loop (Wood, Mud, Food).
+*   [ ] Implement basic resource ticking loop (Wood, Mud, Berries (blackberries)).
 *   [ ] Sketch out UI layout for the three-column dashboard.
 
 ## 🔗 References
