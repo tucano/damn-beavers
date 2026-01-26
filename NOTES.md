@@ -4,6 +4,10 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 
 ## 📅 Log Entries
 
+### 2026-01-27
+*   **UI**: Added a "Dev Controls" section to the `Home` page.
+*   **Feature**: Implemented a "Reset Berries" button within the dev controls to reset the berry count to zero.
+
 ### 2026-01-26
 *   **Store**: Added a `reset` method to `useBerryStore` to set the berry count to zero.
 *   **Testing**: Fixed a state leakage issue in `useBerryStore.test.ts` by adding an `afterEach` hook to reset the store's state, ensuring each test runs in isolation.
