@@ -1,8 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Beaver } from '@/types/beaver';
-
-export const BERRY_CONSUMPTION_PER_SECOND = 4;
+import { getRandomBeaverName } from '@/utils/beaverHelper';
 
 interface BeaverState {
   beavers: Beaver[];
@@ -19,7 +18,7 @@ export const useBeaverStore = create<BeaverState>()(
           beavers: [
             ...state.beavers,
             ...Array.from({ length: by }, () => ({
-              name: 'Beaver',
+              name: getRandomBeaverName(),
               age: 0,
               health: 100,
             })),
