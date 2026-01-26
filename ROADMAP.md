@@ -8,7 +8,7 @@ This phase focuses on establishing the core gameplay mechanics, including resour
 
 ### Core Mechanics
 
-- **Game State**: Define the initial game state, including resources (Wood, Mud, Food), buildings (Lodge), and beavers.
+- **Game State**: Define the initial game state, including resources (Wood, Mud, Berries (blackberries)), buildings (Lodge), and beavers.
 - **Game Loop**: Implement the main game loop for resource generation and consumption (1 tick/second).
 - **Beaver Jobs**: Allow players to assign beavers to different jobs (Gatherers, Hunters).
 

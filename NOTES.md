@@ -2,7 +2,24 @@
 
 This document serves as a dev log and scratchpad for the **Damn Beavers** project.
 
-## 📅 Log Entries
+## 🪵 Log Entries
+
+### 2026-01-26
+*   **Store**: Converted `beavers` in `useBeaverStore` from a `number` to an array of `Beaver` objects, each with `name`, `age`, and `health`.
+*   **Store**: Added a `BERRY_CONSUMPTION_PER_SECOND` constant to `useBeaverStore`.
+*   **Testing**: Updated tests in `useBeaverStore.test.ts` to reflect the new state structure.
+
+### 2026-01-26
+*   **UI**: Added a "Dev Controls" section to the `Home` page.
+*   **Feature**: Implemented a "Reset Berries" button within the dev controls to reset the berry count to zero.
+
+### 2026-01-26
+*   **Store**: Added a `reset` method to `useBerryStore` to set the berry count to zero.
+*   **Testing**: Fixed a state leakage issue in `useBerryStore.test.ts` by adding an `afterEach` hook to reset the store's state, ensuring each test runs in isolation.
+
+### 2026-01-26
+*   **State Management**: Implemented `useBerryStore` using **Zustand** with persistence middleware.
+*   **Testing**: Fixed `TypeError: storage.setItem is not a function` in Vitest by mocking `localStorage` in `src/setupTests.ts`. This ensures that Zustand's `persist` middleware works correctly in the `jsdom` environment.
 
 ### 2026-01-25
 *   **Documentation**: Added a new "Directory Structure" section to the `README.md` file. The section includes a tree view of the `src` directory and a detailed explanation of each subdirectory's purpose.
@@ -22,7 +39,7 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 ## 🧠 Backlog & Ideas
 *   [x] Set up React + Vite environment.
 *   [x] Configure Tailwind CSS customization (colors, fonts).
-*   [ ] Implement basic resource ticking loop (Wood, Mud, Food).
+*   [ ] Implement basic resource ticking loop (Wood, Mud, Berries (blackberries)).
 *   [ ] Sketch out UI layout for the three-column dashboard.
 
 ## 🔗 References
