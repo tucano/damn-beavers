@@ -2,7 +2,7 @@ import { TreePine, Pickaxe } from 'lucide-react';
 import { useBerryStore } from '../store/useBerryStore';
 
 function Home() {
-  const { berries, increaseBerries } = useBerryStore();
+  const { berries, increaseBerries, reset } = useBerryStore();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-[#1a1a1a] text-white">
@@ -26,6 +26,15 @@ function Home() {
           >
             <Pickaxe size={20} />
             Gather Berries
+          </button>
+        </div>
+        <div className="p-6 border border-gray-700 rounded-lg bg-gray-900 shadow-xl max-w-md mx-auto mt-6">
+          <h2 className="text-xl font-bold mb-4 text-yellow-400">Dev Controls</h2>
+          <button
+            onClick={reset}
+            className="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-md transition-colors"
+          >
+            Reset Berries
           </button>
         </div>
       </div>
