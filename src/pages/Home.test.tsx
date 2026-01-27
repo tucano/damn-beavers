@@ -10,6 +10,8 @@ vi.mock('lucide-react', () => ({
     Barrel: () => <div data-testid="barrel-icon" />,
     ScrollText: () => <div data-testid="scroll-text-icon" />,
     Settings2: () => <div data-testid="settings-icon" />,
+    Pause: () => <div data-testid="pause-icon" />,
+    Play: () => <div data-testid="play-icon" />,
 }));
 
 describe('Home Component', () => {

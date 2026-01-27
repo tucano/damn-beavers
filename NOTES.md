@@ -5,6 +5,15 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 ## 🪵 Log Entries
 
 ### 2026-01-26
+*   **Store**: Implemented `useTimeStore` to track game time in days and manage pause state.
+*   **Util**: Created `gameTimeHelper.ts` to format game days into "Year - Season - Day" strings using custom season lengths (Winter: 90, Spring: 92, Summer: 92, Autumn: 91).
+*   **Config**: Added time-related constants to `src/config/game.ts`.
+*   **UI**: Added game time display and Pause/Play toggle to `AppBar`.
+*   **UI**: Added "Reset Time" button to `DevControls` and integrated time reset into "Reset All".
+*   **Feature**: Implemented game time progression (1s = 1 day) in `Home.tsx` using `useEffect`.
+*   **Testing**: Added unit tests for `useTimeStore` and `gameTimeHelper`, and updated `Home.test.tsx` to handle new icons.
+
+### 2026-01-26
 *   **Store**: Created a centralized `useLogStore` for persistent activity logging with auto-rotation (limit 50 entries).
 *   **UI**: Replaced hardcoded logs in `ActivityLog` with a dynamic, color-coded display from `useLogStore`.
 *   **Feature**: Integrated logging into berry gathering and implemented a "Reset All" functionality that clears logs and adds initial system messages.

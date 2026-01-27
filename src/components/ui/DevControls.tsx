@@ -4,6 +4,7 @@ import { useBeaverStore } from '@/store/useBeaverStore';
 import { useWoodStore } from '@/store/useWoodStore';
 import { useMudStore } from '@/store/useMudStore';
 import { useLogStore } from '@/store/useLogStore';
+import { useTimeStore } from '@/store/useTimeStore';
 
 export function DevControls() {
     const { reset: resetBerries } = useBerryStore();
@@ -11,6 +12,7 @@ export function DevControls() {
     const { increaseWood, reset: resetWood } = useWoodStore();
     const { increaseMud, reset: resetMud } = useMudStore();
     const { reset: resetLogs, addLog } = useLogStore();
+    const { reset: resetTime } = useTimeStore();
 
     const handleReset = () => {
         resetBerries();
@@ -18,6 +20,7 @@ export function DevControls() {
         resetWood();
         resetMud();
         resetLogs();
+        resetTime();
         addLog('Welcome to your new colony, Overseer.', 'info');
         addLog('System initialized.', 'info');
     };
@@ -46,6 +49,12 @@ export function DevControls() {
                     className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
                 >
                     +10 Mud
+                </button>
+                <button
+                    onClick={resetTime}
+                    className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
+                >
+                    Reset Time
                 </button>
                 <button
                     onClick={handleReset}
