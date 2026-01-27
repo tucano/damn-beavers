@@ -1,14 +1,17 @@
-import { TreePine } from 'lucide-react';
+import { TreePine, Pause, Play } from 'lucide-react';
 import { useBerryStore } from '../../store/useBerryStore';
 import { useBeaverStore } from '@/store/useBeaverStore';
 import { useWoodStore } from '@/store/useWoodStore';
 import { useMudStore } from '@/store/useMudStore';
+import { useTimeStore } from '@/store/useTimeStore';
+import { formatGameTime } from '@/utils/gameTimeHelper';
 
 export function AppBar() {
     const { berries } = useBerryStore();
     const { beavers } = useBeaverStore();
     const { wood } = useWoodStore();
     const { mud } = useMudStore();
+    const { days, isPaused, togglePause } = useTimeStore();
 
     return (
         <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-10">
@@ -19,7 +22,20 @@ export function AppBar() {
                     </div>
                     <div>
                         <h1 className="text-xl font-bold tracking-tight text-white">Damn Beavers</h1>
-                        <p className="text-xs text-blue-400 font-medium">Build. Manage. Dominate.</p>
+                        <div className="flex items-center gap-2">
+                            <p className="text-xs text-blue-400 font-medium">Build. Manage. Dominate.</p>
+                            <span className="text-gray-600">|</span>
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-mono text-gray-400">{formatGameTime(days)}</span>
+                                <button
+                                    onClick={togglePause}
+                                    className="p-1 hover:bg-gray-800 rounded-md transition-colors text-gray-400 hover:text-white"
+                                    title={isPaused ? "Resume" : "Pause"}
+                                >
+                                    {isPaused ? <Play size={14} fill="currentColor" /> : <Pause size={14} fill="currentColor" />}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="flex items-center gap-6">
