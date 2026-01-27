@@ -3,6 +3,7 @@ import { AppBar } from '@/components/ui/AppBar';
 import { ActivityLog } from '@/components/ui/ActivityLog';
 import { DevControls } from '@/components/ui/DevControls';
 import { Statistics } from '@/components/ui/Statistics';
+import { BeaverList } from '@/components/ui/BeaverList';
 import { VillageActions } from '@/components/ui/VillageActions';
 import { useTimeStore } from '@/store/useTimeStore';
 
@@ -28,6 +29,7 @@ function Home() {
         <div className="space-y-6">
           <DevControls />
           <Statistics />
+          <BeaverList />
         </div>
 
         {/* Middle Column: Actions */}
