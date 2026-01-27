@@ -1,20 +1,6 @@
 import { ScrollText } from 'lucide-react';
 import { useLogStore } from '@/store/useLogStore';
-import type { LogType } from '@/types/log';
-
-const getLogTypeColor = (type: LogType) => {
-    switch (type) {
-        case 'success':
-            return 'text-green-400/80';
-        case 'warning':
-            return 'text-yellow-400/80';
-        case 'error':
-            return 'text-red-400/80';
-        case 'info':
-        default:
-            return 'text-blue-400/80';
-    }
-};
+import { getLogTypeColor } from '@/utils/logHelper';
 
 export function ActivityLog() {
     const { logs } = useLogStore();
