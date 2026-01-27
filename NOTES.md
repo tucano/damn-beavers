@@ -5,6 +5,10 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 ## 🪵 Log Entries
 
 ### 2026-01-26
+*   **UI**: Created `BeaverList` component to display names, ages, and health bars of the beaver colony in the left column.
+*   **Testing**: Added unit tests for `BeaverList` and updated `Home.test.tsx` to handle new UI components and icon mocks.
+
+### 2026-01-26
 *   **Store**: Implemented `useTimeStore` to track game time in days and manage pause state.
 *   **Util**: Created `gameTimeHelper.ts` to format game days into "Year - Season - Day" strings using custom season lengths (Winter: 90, Spring: 92, Summer: 92, Autumn: 91).
 *   **Config**: Added time-related constants to `src/config/game.ts`.
