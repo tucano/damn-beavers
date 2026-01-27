@@ -1,10 +1,21 @@
 import { Settings2 } from 'lucide-react';
-import { useBerryStore } from '../../store/useBerryStore';
+import { useBerryStore } from '@/store/useBerryStore';
 import { useBeaverStore } from '@/store/useBeaverStore';
+import { useWoodStore } from '@/store/useWoodStore';
+import { useMudStore } from '@/store/useMudStore';
 
 export function DevControls() {
-    const { reset } = useBerryStore();
+    const { reset: resetBerries } = useBerryStore();
     const { addBeavers, resetBeavers } = useBeaverStore();
+    const { increaseWood, reset: resetWood } = useWoodStore();
+    const { increaseMud, reset: resetMud } = useMudStore();
+
+    const handleReset = () => {
+        resetBerries();
+        resetBeavers();
+        resetWood();
+        resetMud();
+    };
 
     return (
         <section className="bg-gray-900/40 border border-gray-800 rounded-xl p-5 shadow-sm">
@@ -20,13 +31,22 @@ export function DevControls() {
                     + Beaver
                 </button>
                 <button
-                    onClick={() => {
-                        reset();
-                        resetBeavers();
-                    }}
-                    className="flex-1 py-2 px-4 bg-red-900/20 hover:bg-red-900/40 text-red-400 text-sm font-semibold rounded-lg transition-all border border-red-900/50"
+                    onClick={() => increaseWood(10)}
+                    className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
                 >
-                    Reset
+                    +10 Wood
+                </button>
+                <button
+                    onClick={() => increaseMud(10)}
+                    className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
+                >
+                    +10 Mud
+                </button>
+                <button
+                    onClick={handleReset}
+                    className="w-full py-2 px-4 bg-red-900/20 hover:bg-red-900/40 text-red-400 text-sm font-semibold rounded-lg transition-all border border-red-900/50"
+                >
+                    Reset All
                 </button>
             </div>
         </section>
