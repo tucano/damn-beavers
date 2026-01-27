@@ -5,6 +5,7 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 ## 🪵 Log Entries
 
 ### 2026-01-26
+*   **UI**: Added Wood and Mud counters to the `Statistics` component.
 *   **UI**: Implemented a modern, responsive three-column layout in `Home.tsx` using Tailwind CSS.
 *   **UI**: Added an AppBar with project title, subtitle, and live resource counters.
 *   **UI**: Moved Dev Controls to the left column and arranged buttons in a row for better space utilization.
