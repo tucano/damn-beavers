@@ -1,15 +1,43 @@
 import { ScrollText } from 'lucide-react';
+import { useLogStore } from '@/store/useLogStore';
+import type { LogType } from '@/types/log';
+
+const getLogTypeColor = (type: LogType) => {
+    switch (type) {
+        case 'success':
+            return 'text-green-400/80';
+        case 'warning':
+            return 'text-yellow-400/80';
+        case 'error':
+            return 'text-red-400/80';
+        case 'info':
+        default:
+            return 'text-blue-400/80';
+    }
+};
 
 export function ActivityLog() {
+    const { logs } = useLogStore();
+
     return (
         <section className="bg-gray-900/40 border border-gray-800 rounded-xl p-5 shadow-sm h-full flex flex-col min-h-[400px]">
             <div className="flex items-center gap-2 mb-4 text-gray-400">
                 <ScrollText size={18} />
                 <h2 className="text-sm font-bold uppercase tracking-widest">Activity Log</h2>
             </div>
-            <div className="flex-1 bg-black/20 rounded-lg p-4 font-mono text-xs text-gray-500 space-y-2 overflow-y-auto">
-                <p className="text-blue-400/80 tracking-tight">[{new Date().toLocaleTimeString()}] System initialized.</p>
-                <p className="tracking-tight">[{new Date().toLocaleTimeString()}] Welcome to your new colony, Overseer.</p>
+            <div className="flex-1 bg-black/20 rounded-lg p-4 font-mono text-xs space-y-2 overflow-y-auto">
+                {logs.length === 0 ? (
+                    <p className="text-gray-600 italic">No activity yet...</p>
+                ) : (
+                    logs.map((log) => (
+                        <p key={log.id} className="tracking-tight flex gap-2">
+                            <span className="text-gray-500 shrink-0">
+                                [{new Date(log.timestamp).toLocaleTimeString()}]
+                            </span>
+                            <span className={getLogTypeColor(log.type)}>{log.message}</span>
+                        </p>
+                    ))
+                )}
             </div>
         </section>
     );

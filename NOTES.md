@@ -5,6 +5,12 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 ## 🪵 Log Entries
 
 ### 2026-01-26
+*   **Store**: Created a centralized `useLogStore` for persistent activity logging with auto-rotation (limit 50 entries).
+*   **UI**: Replaced hardcoded logs in `ActivityLog` with a dynamic, color-coded display from `useLogStore`.
+*   **Feature**: Integrated logging into berry gathering and implemented a "Reset All" functionality that clears logs and adds initial system messages.
+*   **Testing**: Added unit tests for `useLogStore` and verified visual changes with Playwright screenshots.
+
+### 2026-01-26
 *   **UI**: Expanded Dev Controls to include "+10 Wood" and "+10 Mud" buttons.
 *   **UI**: Updated "Reset" button to "Reset All" to clear all resources (Berries, Beavers, Wood, Mud).
 *   **Testing**: Added `src/components/ui/DevControls.test.tsx` to verify the new controls and reset logic.

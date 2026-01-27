@@ -3,18 +3,23 @@ import { useBerryStore } from '@/store/useBerryStore';
 import { useBeaverStore } from '@/store/useBeaverStore';
 import { useWoodStore } from '@/store/useWoodStore';
 import { useMudStore } from '@/store/useMudStore';
+import { useLogStore } from '@/store/useLogStore';
 
 export function DevControls() {
     const { reset: resetBerries } = useBerryStore();
     const { addBeavers, resetBeavers } = useBeaverStore();
     const { increaseWood, reset: resetWood } = useWoodStore();
     const { increaseMud, reset: resetMud } = useMudStore();
+    const { reset: resetLogs, addLog } = useLogStore();
 
     const handleReset = () => {
         resetBerries();
         resetBeavers();
         resetWood();
         resetMud();
+        resetLogs();
+        addLog('Welcome to your new colony, Overseer.', 'info');
+        addLog('System initialized.', 'info');
     };
 
     return (
