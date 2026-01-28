@@ -1,5 +1,5 @@
 // Game constants
-export const BERRY_CONSUMPTION_PER_SECOND = 4;
+export const BERRY_CONSUMPTION_PER_SECOND = 0.85;
 
 export const DAYS_IN_YEAR = 365;
 export const WINTER_DAYS = 90;
