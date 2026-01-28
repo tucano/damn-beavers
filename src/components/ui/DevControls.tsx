@@ -8,7 +8,7 @@ import { useTimeStore } from '@/store/useTimeStore';
 
 export function DevControls() {
     const { reset: resetBerries } = useBerryStore();
-    const { addBeavers, resetBeavers } = useBeaverStore();
+    const { addBeavers, reset: resetBeavers } = useBeaverStore();
     const { increaseWood, reset: resetWood } = useWoodStore();
     const { increaseMud, reset: resetMud } = useMudStore();
     const { reset: resetLogs, addLog } = useLogStore();
