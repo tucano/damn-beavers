@@ -1,12 +1,18 @@
 import { act, renderHook } from '@testing-library/react';
 import { useBeaverStore } from './useBeaverStore';
-import { describe, it, expect, afterEach } from 'vitest';
+import { useBerryStore } from './useBerryStore';
+import { useTimeStore } from './useTimeStore';
+import { useLogStore } from './useLogStore';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('useBeaverStore', () => {
-  // Reset store state after each test to prevent leakage
-  afterEach(() => {
+  // Reset store state before each test to prevent leakage
+  beforeEach(() => {
     act(() => {
-      useBeaverStore.setState({ beavers: [] });
+        useBeaverStore.getState().reset();
+        useBerryStore.getState().reset();
+        useTimeStore.getState().reset();
+        useLogStore.getState().reset();
     });
   });
 
@@ -43,5 +49,37 @@ describe('useBeaverStore', () => {
     });
 
     expect(result.current.beavers.length).toBe(2);
+  });
+
+  describe('Starvation logic', () => {
+    it('should reduce health when not enough berries', () => {
+      act(() => {
+        useBeaverStore.getState().addBeavers(1);
+        // No berries in store
+      });
+
+      act(() => {
+        useTimeStore.getState().tick();
+      });
+
+      const beavers = useBeaverStore.getState().beavers;
+      expect(beavers[0].health).toBe(75);
+    });
+
+    it('should kill beaver when health reaches 0', () => {
+      act(() => {
+          useBeaverStore.getState().setBeavers([{ name: 'Starving Beaver', age: 0, health: 25 }]);
+      });
+
+      act(() => {
+        useTimeStore.getState().tick();
+      });
+
+      const beavers = useBeaverStore.getState().beavers;
+      expect(beavers.length).toBe(0);
+
+      const logs = useLogStore.getState().logs;
+      expect(logs[0].message).toBe('Beaver Starving Beaver dies for starvation');
+    });
   });
 });
