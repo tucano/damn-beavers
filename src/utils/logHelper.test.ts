@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { getLogTypeColor } from './logHelper';
-import type { LogType } from '@/types/log';
 
 describe('logHelper', () => {
     describe('getLogTypeColor', () => {
