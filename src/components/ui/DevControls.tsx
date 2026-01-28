@@ -12,7 +12,7 @@ export function DevControls() {
     const { increaseWood, reset: resetWood } = useWoodStore();
     const { increaseMud, reset: resetMud } = useMudStore();
     const { reset: resetLogs, addLog } = useLogStore();
-    const { reset: resetTime } = useTimeStore();
+    const { timeMultiplier, setTimeMultiplier, reset: resetTime } = useTimeStore();
 
     const handleReset = () => {
         resetBerries();
@@ -23,6 +23,12 @@ export function DevControls() {
         resetTime();
         addLog('Welcome to your new colony, Overseer.', 'info');
         addLog('System initialized.', 'info');
+    };
+
+    const toggleSpeed = () => {
+        const newMultiplier = timeMultiplier === 10 ? 1 : 10;
+        setTimeMultiplier(newMultiplier);
+        addLog(`Time speed set to ${newMultiplier}x`, 'info');
     };
 
     return (
@@ -49,6 +55,15 @@ export function DevControls() {
                     className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
                 >
                     +10 Mud
+                </button>
+                <button
+                    onClick={toggleSpeed}
+                    className={`flex-1 py-2 px-4 text-sm font-semibold rounded-lg transition-all border ${timeMultiplier === 10
+                            ? 'bg-amber-900/40 text-amber-400 border-amber-900/50 hover:bg-amber-900/60'
+                            : 'bg-gray-800 hover:bg-gray-700 text-gray-200 border-gray-700'
+                        }`}
+                >
+                    {timeMultiplier === 10 ? '1x Speed' : '10x Speed'}
                 </button>
                 <button
                     onClick={resetTime}
