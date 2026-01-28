@@ -26,7 +26,7 @@ export function DevControls() {
     };
 
     const toggleSpeed = () => {
-        const newMultiplier = timeMultiplier === 10 ? 1 : 10;
+        const newMultiplier = timeMultiplier === 100 ? 1 : 100;
         setTimeMultiplier(newMultiplier);
         addLog(`Time speed set to ${newMultiplier}x`, 'info');
     };
@@ -58,12 +58,12 @@ export function DevControls() {
                 </button>
                 <button
                     onClick={toggleSpeed}
-                    className={`flex-1 py-2 px-4 text-sm font-semibold rounded-lg transition-all border ${timeMultiplier === 10
-                            ? 'bg-amber-900/40 text-amber-400 border-amber-900/50 hover:bg-amber-900/60'
-                            : 'bg-gray-800 hover:bg-gray-700 text-gray-200 border-gray-700'
+                    className={`flex-1 py-2 px-4 text-sm font-semibold rounded-lg transition-all border ${timeMultiplier === 100
+                        ? 'bg-amber-900/40 text-amber-400 border-amber-900/50 hover:bg-amber-900/60'
+                        : 'bg-gray-800 hover:bg-gray-700 text-gray-200 border-gray-700'
                         }`}
                 >
-                    {timeMultiplier === 10 ? '1x Speed' : '10x Speed'}
+                    {timeMultiplier === 100 ? '1x Speed' : '100x Speed'}
                 </button>
                 <button
                     onClick={resetTime}
