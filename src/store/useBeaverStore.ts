@@ -5,7 +5,7 @@ import { getRandomBeaverName } from '@/utils/beaverHelper';
 import { useTimeStore } from './useTimeStore';
 import { useBerryStore } from './useBerryStore';
 import { useLogStore } from './useLogStore';
-import { BERRY_CONSUMPTION_PER_DAY } from '@/config/game';
+import { BERRY_CONSUMPTION_PER_DAY, DAYS_IN_YEAR } from '@/config/game';
 
 interface BeaverState {
   beavers: Beaver[];
@@ -51,6 +51,8 @@ useTimeStore.subscribe(
       let availableBerries = berryStore.berries;
       let totalConsumed = 0;
 
+      const yearPassed = Math.floor(days / DAYS_IN_YEAR) > Math.floor(prevDays / DAYS_IN_YEAR);
+
       const updatedBeavers = beavers.map((beaver) => {
         let health = beaver.health;
         if (availableBerries >= BERRY_CONSUMPTION_PER_DAY) {
@@ -67,7 +69,7 @@ useTimeStore.subscribe(
 
         return {
           ...beaver,
-          age: beaver.age + 1,
+          age: yearPassed ? beaver.age + 1 : beaver.age,
           health: health,
         };
       });

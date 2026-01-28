@@ -4,6 +4,7 @@ import { useBerryStore } from './useBerryStore';
 import { useTimeStore } from './useTimeStore';
 import { useLogStore } from './useLogStore';
 import { describe, it, expect, beforeEach } from 'vitest';
+import { DAYS_IN_YEAR } from '@/config/game';
 
 describe('useBeaverStore', () => {
   // Reset store state before each test to prevent leakage
@@ -80,6 +81,47 @@ describe('useBeaverStore', () => {
 
       const logs = useLogStore.getState().logs;
       expect(logs[0].message).toBe('Beaver Starving Beaver dies for starvation');
+    });
+  });
+
+  describe('Aging logic', () => {
+    it('should not increase age every day', () => {
+      act(() => {
+        useBeaverStore.getState().addBeavers(1);
+        useBerryStore.getState().increaseBerries(100); // Give them food
+      });
+
+      act(() => {
+        useTimeStore.getState().tick();
+      });
+
+      const beavers = useBeaverStore.getState().beavers;
+      expect(beavers[0].age).toBe(0);
+    });
+
+    it('should increase age by 1 after DAYS_IN_YEAR days', () => {
+      act(() => {
+        useBeaverStore.getState().addBeavers(1);
+        useBerryStore.getState().increaseBerries(1000); // Give them food
+      });
+
+      // Advance 364 days
+      for (let i = 0; i < DAYS_IN_YEAR - 1; i++) {
+        act(() => {
+          useTimeStore.getState().tick();
+        });
+      }
+
+      let beavers = useBeaverStore.getState().beavers;
+      expect(beavers[0].age).toBe(0);
+
+      // Advance to day 365
+      act(() => {
+        useTimeStore.getState().tick();
+      });
+
+      beavers = useBeaverStore.getState().beavers;
+      expect(beavers[0].age).toBe(1);
     });
   });
 });

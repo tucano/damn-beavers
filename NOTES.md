@@ -8,6 +8,9 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 *   **UI**: Added a "**100x Speed**" dev control to accelerate game time for testing purposes.
 *   **Store**: Updated `useTimeStore` with `timeMultiplier` and `setTimeMultiplier` action.
 *   **Hook**: Modified `useGameTime` hook to adjust `setInterval` delay based on the `timeMultiplier`.
+*   **Store**: Implemented yearly beaver aging in `useBeaverStore`. Beavers now age by 1 every 365 days (defined by `DAYS_IN_YEAR`).
+*   **Feature**: Beavers no longer age every day; aging is now synchronized with the game year cycle.
+
 ### 2026-01-26
 *   **UI**: Created `BeaverList` component to display names, ages, and health bars of the beaver colony in the left column.
 *   **Testing**: Added unit tests for `BeaverList` and updated `Home.test.tsx` to handle new UI components and icon mocks.
