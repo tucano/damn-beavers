@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { useTimeStore } from './useTimeStore';
 
 interface BerryState {
   berries: number;
@@ -19,4 +20,15 @@ export const useBerryStore = create<BerryState>()(
       name: 'berry-storage',
     }
   )
+);
+
+// Subscribe to game tick
+useTimeStore.subscribe(
+  (state) => state.days,
+  (days, prevDays) => {
+    if (days > prevDays) {
+      // Logic for berry-specific tick actions can go here
+      // Berry consumption is currently handled by useBeaverStore subscription
+    }
+  }
 );
