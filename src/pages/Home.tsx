@@ -1,43 +1,47 @@
-import { TreePine, Pickaxe } from 'lucide-react';
-import { useBerryStore } from '../store/useBerryStore';
+import { useEffect } from 'react';
+import { AppBar } from '@/components/ui/AppBar';
+import { ActivityLog } from '@/components/ui/ActivityLog';
+import { DevControls } from '@/components/ui/DevControls';
+import { Statistics } from '@/components/ui/Statistics';
+import { BeaverList } from '@/components/ui/BeaverList';
+import { VillageActions } from '@/components/ui/VillageActions';
+import { useTimeStore } from '@/store/useTimeStore';
 
 function Home() {
-  const { berries, increaseBerries, reset } = useBerryStore();
+  const { increaseDays, isPaused } = useTimeStore();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isPaused) {
+        increaseDays(1);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [increaseDays, isPaused]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-[#1a1a1a] text-white">
-      <div className="text-center space-y-6">
-        <h1 className="text-5xl font-bold flex items-center justify-center gap-4 text-[#8B4513]">
-          <TreePine size={64} />
-          Damn Beavers
-          <TreePine size={64} />
-        </h1>
-        <p className="text-xl text-blue-300">
-          Build. Manage. Dominate.
-        </p>
-        <div className="p-6 border border-gray-700 rounded-lg bg-gray-900 shadow-xl max-w-md mx-auto">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-gray-400">Berries</span>
-            <span className="text-2xl font-mono">{berries}</span>
-          </div>
-          <button
-            onClick={() => increaseBerries(1)}
-            className="w-full py-3 px-6 bg-[#8B4513] hover:bg-[#A0522D] text-white font-bold rounded-md flex items-center justify-center gap-2 transition-colors"
-          >
-            <Pickaxe size={20} />
-            Gather Berries
-          </button>
+    <div className="min-h-screen flex flex-col bg-[#1a1a1a] text-white font-sans">
+      <AppBar />
+
+      <main className="flex-1 max-w-7xl w-full mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+        {/* Left Column: Stats & Dev Controls */}
+        <div className="space-y-6">
+          <DevControls />
+          <Statistics />
+          <BeaverList />
         </div>
-        <div className="p-6 border border-gray-700 rounded-lg bg-gray-900 shadow-xl max-w-md mx-auto mt-6">
-          <h2 className="text-xl font-bold mb-4 text-yellow-400">Dev Controls</h2>
-          <button
-            onClick={reset}
-            className="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-md transition-colors"
-          >
-            Reset Berries
-          </button>
+
+        {/* Middle Column: Actions */}
+        <div className="space-y-6">
+          <VillageActions />
         </div>
-      </div>
+
+        {/* Right Column: Log */}
+        <div className="space-y-6">
+          <ActivityLog />
+        </div>
+      </main>
     </div>
   );
 }
