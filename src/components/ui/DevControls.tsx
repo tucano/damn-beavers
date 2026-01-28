@@ -7,7 +7,7 @@ import { useLogStore } from '@/store/useLogStore';
 import { useTimeStore } from '@/store/useTimeStore';
 
 export function DevControls() {
-    const { reset: resetBerries } = useBerryStore();
+    const { increaseBerries, reset: resetBerries } = useBerryStore();
     const { addBeavers, reset: resetBeavers } = useBeaverStore();
     const { increaseWood, reset: resetWood } = useWoodStore();
     const { increaseMud, reset: resetMud } = useMudStore();
@@ -43,6 +43,12 @@ export function DevControls() {
                     className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
                 >
                     + Beaver
+                </button>
+                <button
+                    onClick={() => increaseBerries(1000)}
+                    className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
+                >
+                    +1000 Berries
                 </button>
                 <button
                     onClick={() => increaseWood(10)}
