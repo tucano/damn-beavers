@@ -1,24 +1,13 @@
-import { useEffect } from 'react';
 import { AppBar } from '@/components/ui/AppBar';
 import { ActivityLog } from '@/components/ui/ActivityLog';
 import { DevControls } from '@/components/ui/DevControls';
 import { Statistics } from '@/components/ui/Statistics';
 import { BeaverList } from '@/components/ui/BeaverList';
 import { VillageActions } from '@/components/ui/VillageActions';
-import { useTimeStore } from '@/store/useTimeStore';
+import { useGameTime } from '@/hooks/useGameTime';
 
 function Home() {
-  const { increaseDays, isPaused } = useTimeStore();
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isPaused) {
-        increaseDays(1);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [increaseDays, isPaused]);
+  useGameTime();
 
   return (
     <div className="min-h-screen flex flex-col bg-[#1a1a1a] text-white font-sans">
