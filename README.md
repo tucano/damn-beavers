@@ -2,6 +2,10 @@
 
 An immersive, dark incremental game built with React, Vite, TypeScript, and Zustand. Manage a colony of beavers, engineer massive dams, and transition from a primitive wood-gnawing society to a high-tech hydraulic civilization.
 
+## 🚀 Live Demo
+
+[https://tucano.github.io/damn-beavers/](https://tucano.github.io/damn-beavers/)
+
 ## 🌟 Vision
 
 Damn Beavers is a resource management simulator inspired by "Kittens Game". It explores the themes of exponential growth and ecological balance. What starts as a simple clicker evolves into a complex web of industrial automation and planetary-scale environmental manipulation.
