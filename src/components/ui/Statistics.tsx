@@ -3,12 +3,14 @@ import { useBerryStore } from '../../store/useBerryStore';
 import { useBeaverStore } from '@/store/useBeaverStore';
 import { useWoodStore } from '@/store/useWoodStore';
 import { useMudStore } from '@/store/useMudStore';
+import { useBerryFieldStore } from '@/store/useBerryFieldStore';
 
 export function Statistics() {
     const { berries } = useBerryStore();
     const { beavers } = useBeaverStore();
     const { wood } = useWoodStore();
     const { mud } = useMudStore();
+    const { berryFields } = useBerryFieldStore();
 
     return (
         <section className="bg-gray-900/40 border border-gray-800 rounded-xl p-5 shadow-sm">
@@ -38,7 +40,13 @@ export function Statistics() {
                 <div className="flex justify-between items-center py-2 border-b border-gray-800/50">
                     <span className="text-gray-400 text-sm">Total Berries</span>
                     <span data-testid="berry-count-stats" className="font-mono text-white">
-                        {berries}
+                        {berries.toFixed(2)}
+                    </span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-gray-800/50">
+                    <span className="text-gray-400 text-sm">Berry Fields</span>
+                    <span data-testid="berry-field-count-stats" className="font-mono text-white">
+                        {berryFields}
                     </span>
                 </div>
             </div>

@@ -13,6 +13,7 @@ vi.mock('lucide-react', () => ({
     Users: () => <div data-testid="users-icon" />,
     Pause: () => <div data-testid="pause-icon" />,
     Play: () => <div data-testid="play-icon" />,
+    Wheat: () => <div data-testid="wheat-icon" />,
 }));
 
 describe('Home Component', () => {

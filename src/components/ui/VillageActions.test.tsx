@@ -8,6 +8,7 @@ import { useLogStore } from '@/store/useLogStore';
 vi.mock('lucide-react', () => ({
     Pickaxe: () => <div data-testid="pickaxe-icon" />,
     Barrel: () => <div data-testid="barrel-icon" />,
+    Wheat: () => <div data-testid="wheat-icon" />,
 }));
 
 describe('VillageActions Component', () => {
