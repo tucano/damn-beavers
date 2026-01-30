@@ -5,6 +5,7 @@ import { useBerryStore } from '../../store/useBerryStore';
 import { useBeaverStore } from '@/store/useBeaverStore';
 import { useWoodStore } from '@/store/useWoodStore';
 import { useMudStore } from '@/store/useMudStore';
+import { useBerryFieldStore } from '@/store/useBerryFieldStore';
 
 // Mock Lucide React icons
 vi.mock('lucide-react', () => ({
@@ -32,5 +33,14 @@ describe('Statistics Component', () => {
 
         expect(screen.getByText('Total Mud')).toBeInTheDocument();
         expect(screen.getByTestId('mud-count-stats')).toHaveTextContent('20');
+
+        expect(screen.getByText('Berry Fields')).toBeInTheDocument();
+        expect(screen.getByTestId('berry-field-count-stats')).toHaveTextContent('0');
+    });
+
+    it('renders berry fields count when updated', () => {
+        useBerryFieldStore.setState({ berryFields: 5 });
+        render(<Statistics />);
+        expect(screen.getByTestId('berry-field-count-stats')).toHaveTextContent('5');
     });
 });

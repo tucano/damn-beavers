@@ -4,6 +4,14 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 
 ## 🪵 Log Entries
 
+### 2026-01-29
+*   **Feature**: Implemented **Berry Fields** for automated berry production.
+*   **Store**: Created `useBerryFieldStore` to manage berry field count, costs, and daily production logic.
+*   **Util**: Extracted `getSeason` from `gameTimeHelper.ts` to share seasonal logic across stores.
+*   **UI**: Added a "Berry Field" build button to `VillageActions` with exponential cost scaling.
+*   **UI**: Added Berry Field count to `Statistics` and formatted berry display to 2 decimal places.
+*   **Logic**: Seasonal modifiers for berry fields: Spring (1.5x), Summer/Autumn (1.0x), Winter (0.25x).
+
 ### 2026-01-28
 *   **UI**: Added a "**100x Speed**" dev control to accelerate game time for testing purposes.
 *   **Store**: Updated `useTimeStore` with `timeMultiplier` and `setTimeMultiplier` action.
