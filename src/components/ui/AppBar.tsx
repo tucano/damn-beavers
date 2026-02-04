@@ -5,6 +5,7 @@ import { useWoodStore } from '@/store/useWoodStore';
 import { useMudStore } from '@/store/useMudStore';
 import { useTimeStore } from '@/store/useTimeStore';
 import { formatGameTime } from '@/utils/gameTimeHelper';
+import { formatResource } from '@/utils/numberHelper';
 
 export function AppBar() {
     const { berries } = useBerryStore();
@@ -45,15 +46,15 @@ export function AppBar() {
                     </div>
                     <div className="flex flex-col items-end">
                         <span className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">Wood</span>
-                        <span data-testid="wood-count-header" className="text-lg font-mono font-bold text-orange-400">{wood}</span>
+                        <span data-testid="wood-count-header" className="text-lg font-mono font-bold text-orange-400">{formatResource(wood)}</span>
                     </div>
                     <div className="flex flex-col items-end">
                         <span className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">Mud</span>
-                        <span data-testid="mud-count-header" className="text-lg font-mono font-bold text-brown-500">{mud}</span>
+                        <span data-testid="mud-count-header" className="text-lg font-mono font-bold text-brown-500">{formatResource(mud)}</span>
                     </div>
                     <div className="flex flex-col items-end">
                         <span className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">Berries</span>
-                        <span data-testid="berry-count-header" className="text-lg font-mono font-bold text-green-500">{berries}</span>
+                        <span data-testid="berry-count-header" className="text-lg font-mono font-bold text-green-500">{formatResource(berries)}</span>
                     </div>
                 </div>
             </div>
