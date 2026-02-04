@@ -9,7 +9,6 @@ import {
     BERRY_FIELD_BASE_COST,
     BERRY_FIELD_PRICE_RATIO,
     LODGE_BASE_COST_WOOD,
-    LODGE_BASE_COST_MUD,
     LODGE_PRICE_RATIO
 } from '@/config/game';
 
@@ -17,7 +16,7 @@ export function VillageActions() {
     const { berries, increaseBerries } = useBerryStore();
     const { berryFields, buildBerryField } = useBerryFieldStore();
     const { wood, increaseWood } = useWoodStore();
-    const { mud, increaseMud } = useMudStore();
+    const { increaseMud } = useMudStore();
     const { lodges, buildLodge } = useLodgeStore();
     const { addLog } = useLogStore();
 
@@ -47,13 +46,12 @@ export function VillageActions() {
     };
 
     const nextLodgeWoodCost = Math.floor(LODGE_BASE_COST_WOOD * Math.pow(LODGE_PRICE_RATIO, lodges));
-    const nextLodgeMudCost = Math.floor(LODGE_BASE_COST_MUD * Math.pow(LODGE_PRICE_RATIO, lodges));
-    const canAffordLodge = wood >= nextLodgeWoodCost && mud >= nextLodgeMudCost;
+    const canAffordLodge = wood >= nextLodgeWoodCost;
 
     const handleBuildLodge = () => {
         if (canAffordLodge) {
             buildLodge();
-            addLog(`Built a Lodge for ${nextLodgeWoodCost} wood and ${nextLodgeMudCost} mud`, 'success');
+            addLog(`Built a Lodge for ${nextLodgeWoodCost} wood`, 'success');
         }
     };
 
@@ -135,7 +133,7 @@ export function VillageActions() {
                         </div>
                         <div className="text-left">
                             <span className="block text-lg">Lodge ({lodges})</span>
-                            <span className="text-xs text-white/60 font-normal">Cost: {nextLodgeWoodCost} Wood, {nextLodgeMudCost} Mud</span>
+                            <span className="text-xs text-white/60 font-normal">Cost: {nextLodgeWoodCost} Wood</span>
                         </div>
                     </button>
                 </div>

@@ -1,10 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { useWoodStore } from './useWoodStore';
-import { useMudStore } from './useMudStore';
 import {
     LODGE_BASE_COST_WOOD,
-    LODGE_BASE_COST_MUD,
     LODGE_PRICE_RATIO
 } from '@/config/game';
 
@@ -21,14 +19,11 @@ export const useLodgeStore = create<LodgeState>()(
             buildLodge: () => {
                 const { lodges } = get();
                 const woodStore = useWoodStore.getState();
-                const mudStore = useMudStore.getState();
 
                 const woodCost = Math.floor(LODGE_BASE_COST_WOOD * Math.pow(LODGE_PRICE_RATIO, lodges));
-                const mudCost = Math.floor(LODGE_BASE_COST_MUD * Math.pow(LODGE_PRICE_RATIO, lodges));
 
-                if (woodStore.wood >= woodCost && mudStore.mud >= mudCost) {
+                if (woodStore.wood >= woodCost) {
                     woodStore.increaseWood(-woodCost);
-                    mudStore.increaseMud(-mudCost);
                     set({ lodges: lodges + 1 });
                 }
             },
