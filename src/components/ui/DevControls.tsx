@@ -5,6 +5,7 @@ import { useWoodStore } from '@/store/useWoodStore';
 import { useMudStore } from '@/store/useMudStore';
 import { useLogStore } from '@/store/useLogStore';
 import { useTimeStore } from '@/store/useTimeStore';
+import { useLodgeStore } from '@/store/useLodgeStore';
 
 export function DevControls() {
     const { increaseBerries, reset: resetBerries } = useBerryStore();
@@ -13,6 +14,7 @@ export function DevControls() {
     const { increaseMud, reset: resetMud } = useMudStore();
     const { reset: resetLogs, addLog } = useLogStore();
     const { timeMultiplier, setTimeMultiplier, reset: resetTime } = useTimeStore();
+    const { reset: resetLodges } = useLodgeStore();
 
     const handleReset = () => {
         resetBerries();
@@ -21,6 +23,7 @@ export function DevControls() {
         resetMud();
         resetLogs();
         resetTime();
+        resetLodges();
         addLog('Welcome to your new colony, Overseer.', 'info');
         addLog('System initialized.', 'info');
     };
