@@ -14,6 +14,8 @@ vi.mock('lucide-react', () => ({
     Pause: () => <div data-testid="pause-icon" />,
     Play: () => <div data-testid="play-icon" />,
     Wheat: () => <div data-testid="wheat-icon" />,
+    Mountain: () => <div data-testid="mountain-icon" />,
+    Home: () => <div data-testid="home-icon" />,
 }));
 
 describe('Home Component', () => {
@@ -30,7 +32,7 @@ describe('Home Component', () => {
     it('renders the TreePine icon', () => {
         render(<Home />);
         const treeIcons = screen.getAllByTestId('tree-pine-icon');
-        expect(treeIcons).toHaveLength(1);
+        expect(treeIcons).toHaveLength(2);
     });
 
     it('renders the Gather Berries button', () => {

@@ -5,7 +5,13 @@ import { getRandomBeaverName } from '@/utils/beaverHelper';
 import { useTimeStore } from './useTimeStore';
 import { useBerryStore } from './useBerryStore';
 import { useLogStore } from './useLogStore';
-import { BERRY_CONSUMPTION_PER_DAY, DAYS_IN_YEAR } from '@/config/game';
+import { useLodgeStore } from './useLodgeStore';
+import {
+  BERRY_CONSUMPTION_PER_DAY,
+  DAYS_IN_YEAR,
+  BEAVER_ARRIVAL_RATE,
+  LODGE_CAPACITY,
+} from '@/config/game';
 
 interface BeaverState {
   beavers: Beaver[];
@@ -81,6 +87,22 @@ useTimeStore.subscribe(
         }
         return true;
       });
+
+      // Arrival logic
+      const lodgeStore = useLodgeStore.getState();
+      const lodges = lodgeStore.lodges;
+      const capacity = lodges * LODGE_CAPACITY;
+
+      if (survivors.length < capacity) {
+        if (Math.random() < BEAVER_ARRIVAL_RATE) {
+          survivors.push({
+            name: getRandomBeaverName(),
+            age: 0,
+            health: 100,
+          });
+          logStore.addLog('A new beaver has joined the colony!', 'success');
+        }
+      }
 
       // Update stores
       berryStore.increaseBerries(-totalConsumed);
