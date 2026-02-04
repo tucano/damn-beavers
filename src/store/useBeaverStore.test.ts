@@ -3,8 +3,9 @@ import { useBeaverStore } from './useBeaverStore';
 import { useBerryStore } from './useBerryStore';
 import { useTimeStore } from './useTimeStore';
 import { useLogStore } from './useLogStore';
-import { describe, it, expect, beforeEach } from 'vitest';
-import { DAYS_IN_YEAR } from '@/config/game';
+import { useLodgeStore } from './useLodgeStore';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { DAYS_IN_YEAR, BEAVER_ARRIVAL_RATE } from '@/config/game';
 
 describe('useBeaverStore', () => {
   // Reset store state before each test to prevent leakage
@@ -14,6 +15,7 @@ describe('useBeaverStore', () => {
         useBerryStore.getState().reset();
         useTimeStore.getState().reset();
         useLogStore.getState().reset();
+        useLodgeStore.getState().reset();
     });
   });
 
@@ -122,6 +124,57 @@ describe('useBeaverStore', () => {
 
       beavers = useBeaverStore.getState().beavers;
       expect(beavers[0].age).toBe(1);
+    });
+  });
+
+  describe('Arrival logic', () => {
+    beforeEach(() => {
+      vi.spyOn(Math, 'random');
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it('should not add beavers if no lodges', () => {
+      vi.mocked(Math.random).mockReturnValue(0); // Always succeed arrival check if it were called
+
+      act(() => {
+        useTimeStore.getState().tick();
+      });
+
+      expect(useBeaverStore.getState().beavers.length).toBe(0);
+    });
+
+    it('should add a beaver if there is space and random succeeds', () => {
+      act(() => {
+        useLodgeStore.setState({ lodges: 1 });
+      });
+
+      vi.mocked(Math.random).mockReturnValue(BEAVER_ARRIVAL_RATE - 0.001); // Succeed
+
+      act(() => {
+        useTimeStore.getState().tick();
+      });
+
+      expect(useBeaverStore.getState().beavers.length).toBe(1);
+      expect(useLogStore.getState().logs[0].message).toBe('A new beaver has joined the colony!');
+    });
+
+    it('should not add a beaver if at capacity', () => {
+      act(() => {
+        useLodgeStore.setState({ lodges: 1 }); // 2 capacity
+        useBeaverStore.getState().addBeavers(2);
+        useBerryStore.getState().increaseBerries(100); // Prevent starvation in this test
+      });
+
+      vi.mocked(Math.random).mockReturnValue(0); // Always succeed arrival check
+
+      act(() => {
+        useTimeStore.getState().tick();
+      });
+
+      expect(useBeaverStore.getState().beavers.length).toBe(2);
     });
   });
 });

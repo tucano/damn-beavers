@@ -9,6 +9,9 @@ vi.mock('lucide-react', () => ({
     Pickaxe: () => <div data-testid="pickaxe-icon" />,
     Barrel: () => <div data-testid="barrel-icon" />,
     Wheat: () => <div data-testid="wheat-icon" />,
+    TreePine: () => <div data-testid="tree-pine-icon" />,
+    Mountain: () => <div data-testid="mountain-icon" />,
+    Home: () => <div data-testid="home-icon" />,
 }));
 
 describe('VillageActions Component', () => {
