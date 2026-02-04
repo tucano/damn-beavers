@@ -78,6 +78,50 @@ This command will:
 5.  Under **Branch**, select `gh-pages` and the `/(root)` folder.
 6.  Click **Save**.
 
+### 6. Automating Deployment with GitHub Actions
+
+To automatically deploy your application every time you push new code to the `master` branch, you can set up a GitHub Action.
+
+1.  **Create a workflow file**:
+    In your project root, create a directory named `.github/workflows` and inside it, create a file named `deploy.yml`.
+
+2.  **Add the following configuration** to `deploy.yml`:
+
+    ```yaml
+    name: Deploy to GitHub Pages
+
+    on:
+      push:
+        branches:
+          - master
+
+    permissions:
+      contents: write
+
+    jobs:
+      build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout 🛎️
+            uses: actions/checkout@v4
+
+          - name: Install and Build 🔧
+            run: |
+              npm install
+              npm run build
+
+          - name: Deploy 🚀
+            uses: JamesIves/github-pages-deploy-action@v4
+            with:
+              folder: dist # The folder the action should deploy.
+    ```
+
+3.  **Push the changes**:
+    Commit and push the `.github/workflows/deploy.yml` file to your `master` branch. GitHub will automatically detect the workflow and run it on every push to `master`.
+
+4.  **Verify the deployment**:
+    Go to the **Actions** tab in your GitHub repository to see the workflow in progress. Once it completes, your site will be updated on GitHub Pages.
+
 ## Accessing Your App
 
 Once the GitHub Actions background process finishes (you can track it in the **Actions** tab), your application will be available at:
