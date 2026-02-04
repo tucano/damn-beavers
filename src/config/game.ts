@@ -13,6 +13,6 @@ export const BERRY_FIELD_PRODUCTION_PER_DAY = 0.63;
 
 export const LODGE_BASE_COST_WOOD = 50;
 export const LODGE_BASE_COST_MUD = 10;
-export const LODGE_PRICE_RATIO = 1.15;
+export const LODGE_PRICE_RATIO = 1.75;
 export const LODGE_CAPACITY = 2;
 export const BEAVER_ARRIVAL_RATE = 0.01;
