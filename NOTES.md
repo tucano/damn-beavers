@@ -4,6 +4,11 @@ This document serves as a dev log and scratchpad for the **Damn Beavers** projec
 
 ## 🪵 Log Entries
 
+### 2026-01-30
+*   **Util**: Created `numberHelper.ts` with `formatResource` to standardize resource rounding to 2 decimal places.
+*   **UI**: Applied `formatResource` to Wood, Mud, and Berries in `Statistics` and `AppBar` views.
+*   **Testing**: Added unit tests for `numberHelper` and verified UI changes with Playwright.
+
 ### 2026-01-29
 *   **Feature**: Implemented **Berry Fields** for automated berry production.
 *   **Store**: Created `useBerryFieldStore` to manage berry field count, costs, and daily production logic.
