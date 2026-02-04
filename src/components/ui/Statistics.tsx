@@ -4,6 +4,7 @@ import { useBeaverStore } from '@/store/useBeaverStore';
 import { useWoodStore } from '@/store/useWoodStore';
 import { useMudStore } from '@/store/useMudStore';
 import { useBerryFieldStore } from '@/store/useBerryFieldStore';
+import { formatResource } from '@/utils/numberHelper';
 
 export function Statistics() {
     const { berries } = useBerryStore();
@@ -28,19 +29,19 @@ export function Statistics() {
                 <div className="flex justify-between items-center py-2 border-b border-gray-800/50">
                     <span className="text-gray-400 text-sm">Total Wood</span>
                     <span data-testid="wood-count-stats" className="font-mono text-white">
-                        {wood}
+                        {formatResource(wood)}
                     </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-800/50">
                     <span className="text-gray-400 text-sm">Total Mud</span>
                     <span data-testid="mud-count-stats" className="font-mono text-white">
-                        {mud}
+                        {formatResource(mud)}
                     </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-800/50">
                     <span className="text-gray-400 text-sm">Total Berries</span>
                     <span data-testid="berry-count-stats" className="font-mono text-white">
-                        {berries.toFixed(2)}
+                        {formatResource(berries)}
                     </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-800/50">
