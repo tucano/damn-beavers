@@ -2,15 +2,13 @@ import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useLodgeStore } from './useLodgeStore';
 import { useWoodStore } from './useWoodStore';
-import { useMudStore } from './useMudStore';
-import { LODGE_BASE_COST_WOOD, LODGE_BASE_COST_MUD } from '../config/game';
+import { LODGE_BASE_COST_WOOD } from '../config/game';
 
 describe('useLodgeStore', () => {
   beforeEach(() => {
     act(() => {
       useLodgeStore.getState().reset();
       useWoodStore.getState().reset();
-      useMudStore.getState().reset();
     });
   });
 
@@ -19,7 +17,7 @@ describe('useLodgeStore', () => {
     expect(result.current.lodges).toBe(0);
   });
 
-  it('should not build a lodge if not enough wood or mud', () => {
+  it('should not build a lodge if not enough wood', () => {
     const { result } = renderHook(() => useLodgeStore());
 
     act(() => {
@@ -29,12 +27,11 @@ describe('useLodgeStore', () => {
     expect(result.current.lodges).toBe(0);
   });
 
-  it('should build a lodge if enough wood and mud', () => {
+  it('should build a lodge if enough wood', () => {
     const { result } = renderHook(() => useLodgeStore());
 
     act(() => {
       useWoodStore.getState().increaseWood(LODGE_BASE_COST_WOOD);
-      useMudStore.getState().increaseMud(LODGE_BASE_COST_MUD);
     });
 
     act(() => {
@@ -43,7 +40,6 @@ describe('useLodgeStore', () => {
 
     expect(result.current.lodges).toBe(1);
     expect(useWoodStore.getState().wood).toBe(0);
-    expect(useMudStore.getState().mud).toBe(0);
   });
 
   it('should increase the cost for the second lodge', () => {
@@ -52,7 +48,6 @@ describe('useLodgeStore', () => {
     // Build first lodge
     act(() => {
       useWoodStore.getState().increaseWood(LODGE_BASE_COST_WOOD);
-      useMudStore.getState().increaseMud(LODGE_BASE_COST_MUD);
       result.current.buildLodge();
     });
     expect(result.current.lodges).toBe(1);
@@ -60,19 +55,16 @@ describe('useLodgeStore', () => {
     // Try to build second lodge with base cost (should fail)
     act(() => {
       useWoodStore.getState().increaseWood(LODGE_BASE_COST_WOOD);
-      useMudStore.getState().increaseMud(LODGE_BASE_COST_MUD);
       result.current.buildLodge();
     });
     expect(result.current.lodges).toBe(1);
 
     // Build second lodge with increased cost
     const secondWoodCost = Math.floor(LODGE_BASE_COST_WOOD * 1.75);
-    const secondMudCost = Math.floor(LODGE_BASE_COST_MUD * 1.75);
 
     // We already added base cost, so we need to add the difference
     act(() => {
       useWoodStore.getState().increaseWood(secondWoodCost - LODGE_BASE_COST_WOOD);
-      useMudStore.getState().increaseMud(secondMudCost - LODGE_BASE_COST_MUD);
       result.current.buildLodge();
     });
     expect(result.current.lodges).toBe(2);
