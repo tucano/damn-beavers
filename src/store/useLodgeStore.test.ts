@@ -45,4 +45,36 @@ describe('useLodgeStore', () => {
     expect(useWoodStore.getState().wood).toBe(0);
     expect(useMudStore.getState().mud).toBe(0);
   });
+
+  it('should increase the cost for the second lodge', () => {
+    const { result } = renderHook(() => useLodgeStore());
+
+    // Build first lodge
+    act(() => {
+      useWoodStore.getState().increaseWood(LODGE_BASE_COST_WOOD);
+      useMudStore.getState().increaseMud(LODGE_BASE_COST_MUD);
+      result.current.buildLodge();
+    });
+    expect(result.current.lodges).toBe(1);
+
+    // Try to build second lodge with base cost (should fail)
+    act(() => {
+      useWoodStore.getState().increaseWood(LODGE_BASE_COST_WOOD);
+      useMudStore.getState().increaseMud(LODGE_BASE_COST_MUD);
+      result.current.buildLodge();
+    });
+    expect(result.current.lodges).toBe(1);
+
+    // Build second lodge with increased cost
+    const secondWoodCost = Math.floor(LODGE_BASE_COST_WOOD * 1.75);
+    const secondMudCost = Math.floor(LODGE_BASE_COST_MUD * 1.75);
+
+    // We already added base cost, so we need to add the difference
+    act(() => {
+      useWoodStore.getState().increaseWood(secondWoodCost - LODGE_BASE_COST_WOOD);
+      useMudStore.getState().increaseMud(secondMudCost - LODGE_BASE_COST_MUD);
+      result.current.buildLodge();
+    });
+    expect(result.current.lodges).toBe(2);
+  });
 });
