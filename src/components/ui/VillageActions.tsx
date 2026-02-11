@@ -1,8 +1,7 @@
-import { Barrel, Pickaxe, Wheat, TreePine, Mountain, Home } from 'lucide-react';
+import { Barrel, Pickaxe, Wheat, TreePine, Home } from 'lucide-react';
 import { useBerryStore } from '@/store/useBerryStore';
 import { useBerryFieldStore } from '@/store/useBerryFieldStore';
 import { useWoodStore } from '@/store/useWoodStore';
-import { useMudStore } from '@/store/useMudStore';
 import { useLodgeStore } from '@/store/useLodgeStore';
 import { useLogStore } from '@/store/useLogStore';
 import {
@@ -16,7 +15,6 @@ export function VillageActions() {
     const { berries, increaseBerries } = useBerryStore();
     const { berryFields, buildBerryField } = useBerryFieldStore();
     const { wood, increaseWood } = useWoodStore();
-    const { increaseMud } = useMudStore();
     const { lodges, buildLodge } = useLodgeStore();
     const { addLog } = useLogStore();
 
@@ -28,11 +26,6 @@ export function VillageActions() {
     const handleGatherWood = () => {
         increaseWood(1);
         addLog('Gnawed some wood', 'success');
-    };
-
-    const handleGatherMud = () => {
-        increaseMud(1);
-        addLog('Collected some mud', 'success');
     };
 
     const nextFieldCost = Math.floor(BERRY_FIELD_BASE_COST * Math.pow(BERRY_FIELD_PRICE_RATIO, berryFields));
@@ -83,16 +76,6 @@ export function VillageActions() {
                         <div className="flex flex-col items-start min-w-[120px]">
                             <span>Gnaw Wood</span>
                             <span className="text-[10px] text-white/60 font-normal">+1 Wood</span>
-                        </div>
-                    </button>
-                    <button
-                        onClick={handleGatherMud}
-                        className="group w-full py-3 flex items-center justify-center gap-4 bg-gradient-to-br from-[#4B2C0E] to-[#2E1B09] hover:from-[#704214] hover:to-[#4B2C0E] text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-1 active:translate-y-0 border-b-4 border-[#1A0D04]"
-                    >
-                        <Mountain size={24} />
-                        <div className="flex flex-col items-start min-w-[120px]">
-                            <span>Collect Mud</span>
-                            <span className="text-[10px] text-white/60 font-normal">+1 Mud</span>
                         </div>
                     </button>
                 </div>
