@@ -11,6 +11,7 @@ import {
   BERRY_CONSUMPTION_PER_DAY,
   DAYS_IN_YEAR,
   BEAVER_ARRIVAL_RATE,
+  BEAVER_GROWTH_RATIO,
   LODGE_CAPACITY,
   WOOD_GNAWER_PRODUCTION_PER_DAY
 } from '@/config/game';
@@ -134,16 +135,14 @@ useTimeStore.subscribe(
         const lodges = lodgeStore.lodges;
         const capacity = lodges * LODGE_CAPACITY;
 
-        if (survivors.length < capacity) {
-          if (Math.random() < BEAVER_ARRIVAL_RATE) {
-            survivors.push({
-              name: getRandomBeaverName(),
-              age: 0,
-              health: 100,
-              job: undefined,
-            });
-            logStore.addLog('A new beaver has joined the colony!', 'success');
-          }
+      if (survivors.length < capacity) {
+        if (Math.random() < BEAVER_ARRIVAL_RATE * (1 + BEAVER_GROWTH_RATIO)) {
+          survivors.push({
+            name: getRandomBeaverName(),
+            age: 0,
+            health: 100,
+          });
+          logStore.addLog('A new beaver has joined the colony!', 'success');
         }
 
         currentBeavers = survivors;

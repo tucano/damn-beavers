@@ -15,4 +15,5 @@ export const LODGE_BASE_COST_WOOD = 50;
 export const LODGE_PRICE_RATIO = 1.75;
 export const LODGE_CAPACITY = 2;
 export const BEAVER_ARRIVAL_RATE = 0.01;
+export const BEAVER_GROWTH_RATIO = 0.75;
 export const WOOD_GNAWER_PRODUCTION_PER_DAY = 0.18;

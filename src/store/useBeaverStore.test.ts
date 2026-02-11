@@ -161,6 +161,22 @@ describe('useBeaverStore', () => {
       expect(useLogStore.getState().logs[0].message).toBe('A new beaver has joined the colony!');
     });
 
+    it('should add a beaver with increased probability due to growth ratio', () => {
+      act(() => {
+        useLodgeStore.setState({ lodges: 1 });
+      });
+
+      // 0.015 is greater than BEAVER_ARRIVAL_RATE (0.01) but less than 0.01 * 1.75 (0.0175)
+      vi.mocked(Math.random).mockReturnValue(0.015);
+
+      act(() => {
+        useTimeStore.getState().tick();
+      });
+
+      expect(useBeaverStore.getState().beavers.length).toBe(1);
+      expect(useLogStore.getState().logs[0].message).toBe('A new beaver has joined the colony!');
+    });
+
     it('should not add a beaver if at capacity', () => {
       act(() => {
         useLodgeStore.setState({ lodges: 1 }); // 2 capacity
