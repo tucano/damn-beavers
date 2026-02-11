@@ -16,6 +16,7 @@ vi.mock('lucide-react', () => ({
     Wheat: () => <div data-testid="wheat-icon" />,
     Mountain: () => <div data-testid="mountain-icon" />,
     Home: () => <div data-testid="home-icon" />,
+    Briefcase: () => <div data-testid="briefcase-icon" />,
 }));
 
 describe('Home Component', () => {

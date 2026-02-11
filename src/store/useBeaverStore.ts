@@ -6,17 +6,21 @@ import { useTimeStore } from './useTimeStore';
 import { useBerryStore } from './useBerryStore';
 import { useLogStore } from './useLogStore';
 import { useLodgeStore } from './useLodgeStore';
+import { useWoodStore } from './useWoodStore';
 import {
   BERRY_CONSUMPTION_PER_DAY,
   DAYS_IN_YEAR,
   BEAVER_ARRIVAL_RATE,
   LODGE_CAPACITY,
+  WOOD_GNAWER_PRODUCTION_PER_DAY
 } from '@/config/game';
 
 interface BeaverState {
   beavers: Beaver[];
   addBeavers: (by: number) => void;
   setBeavers: (beavers: Beaver[]) => void;
+  assignJob: (job: string, count: number) => void;
+  unassignJob: (job: string, count: number) => void;
   reset: () => void;
 }
 
@@ -32,10 +36,35 @@ export const useBeaverStore = create<BeaverState>()(
               name: getRandomBeaverName(),
               age: 0,
               health: 100,
+              job: undefined,
             })),
           ],
         })),
       setBeavers: (beavers) => set({ beavers }),
+      assignJob: (job, count) =>
+        set((state) => {
+          let assigned = 0;
+          const newBeavers = state.beavers.map((b) => {
+            if (assigned < count && !b.job) {
+              assigned++;
+              return { ...b, job };
+            }
+            return b;
+          });
+          return { beavers: newBeavers };
+        }),
+      unassignJob: (job, count) =>
+        set((state) => {
+          let unassigned = 0;
+          const newBeavers = state.beavers.map((b) => {
+            if (unassigned < count && b.job === job) {
+              unassigned++;
+              return { ...b, job: undefined };
+            }
+            return b;
+          });
+          return { beavers: newBeavers };
+        }),
       reset: () => set({ beavers: [] }),
     }),
     {
@@ -51,6 +80,7 @@ useTimeStore.subscribe(
     if (days > prevDays) {
       const beaverStore = useBeaverStore.getState();
       const berryStore = useBerryStore.getState();
+      const woodStore = useWoodStore.getState();
       const logStore = useLogStore.getState();
 
       const beavers = beaverStore.beavers;
@@ -88,6 +118,12 @@ useTimeStore.subscribe(
         return true;
       });
 
+      // Job Production
+      const woodGnawers = survivors.filter((b) => b.job === 'woodGnawer').length;
+      if (woodGnawers > 0) {
+        woodStore.increaseWood(woodGnawers * WOOD_GNAWER_PRODUCTION_PER_DAY);
+      }
+
       // Arrival logic
       const lodgeStore = useLodgeStore.getState();
       const lodges = lodgeStore.lodges;
@@ -99,6 +135,7 @@ useTimeStore.subscribe(
             name: getRandomBeaverName(),
             age: 0,
             health: 100,
+            job: undefined,
           });
           logStore.addLog('A new beaver has joined the colony!', 'success');
         }
