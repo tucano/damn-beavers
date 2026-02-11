@@ -135,26 +135,27 @@ useTimeStore.subscribe(
         const lodges = lodgeStore.lodges;
         const capacity = lodges * LODGE_CAPACITY;
 
-      if (survivors.length < capacity) {
-        if (Math.random() < BEAVER_ARRIVAL_RATE * (1 + BEAVER_GROWTH_RATIO)) {
-          survivors.push({
-            name: getRandomBeaverName(),
-            age: 0,
-            health: 100,
-          });
-          logStore.addLog('A new beaver has joined the colony!', 'success');
+        if (survivors.length < capacity) {
+          if (Math.random() < BEAVER_ARRIVAL_RATE * (1 + BEAVER_GROWTH_RATIO)) {
+            survivors.push({
+              name: getRandomBeaverName(),
+              age: 0,
+              health: 100,
+            });
+            logStore.addLog('A new beaver has joined the colony!', 'success');
+          }
+
+          currentBeavers = survivors;
         }
 
-        currentBeavers = survivors;
+        // Update stores with final state
+        // We use increaseBerries with negative amount to subtract consumption
+        // However, we need to be careful not to double-subtract if we updated local currentBerries
+        // The store's increaseBerries adds to the CURRENT store value. 
+        // Since we calculated totalConsumed based on a snapshot, we should just subtract that total.
+        berryStore.increaseBerries(-totalConsumed);
+        beaverStore.setBeavers(currentBeavers);
       }
-
-      // Update stores with final state
-      // We use increaseBerries with negative amount to subtract consumption
-      // However, we need to be careful not to double-subtract if we updated local currentBerries
-      // The store's increaseBerries adds to the CURRENT store value. 
-      // Since we calculated totalConsumed based on a snapshot, we should just subtract that total.
-      berryStore.increaseBerries(-totalConsumed);
-      beaverStore.setBeavers(currentBeavers);
     }
   }
 );
