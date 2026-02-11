@@ -23,9 +23,14 @@ export function VillageActions() {
         addLog('Gathered 1 berry', 'success');
     };
 
+    const canAffordGnaw = berries >= 100;
+
     const handleGatherWood = () => {
-        increaseWood(1);
-        addLog('Gnawed some wood', 'success');
+        if (canAffordGnaw) {
+            increaseBerries(-100);
+            increaseWood(1);
+            addLog('Gnawed some wood for 100 berries', 'success');
+        }
     };
 
     const nextFieldCost = Math.floor(BERRY_FIELD_BASE_COST * Math.pow(BERRY_FIELD_PRICE_RATIO, berryFields));
@@ -70,12 +75,17 @@ export function VillageActions() {
                     </button>
                     <button
                         onClick={handleGatherWood}
-                        className="group w-full py-3 flex items-center justify-center gap-4 bg-gradient-to-br from-[#5D2E0C] to-[#3D1F08] hover:from-[#8B4513] hover:to-[#5D2E0C] text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-1 active:translate-y-0 border-b-4 border-[#1A0D04]"
+                        disabled={!canAffordGnaw}
+                        className={`group w-full py-3 flex items-center justify-center gap-4 bg-gradient-to-br ${
+                            canAffordGnaw
+                            ? 'from-[#5D2E0C] to-[#3D1F08] hover:from-[#8B4513] hover:to-[#5D2E0C] border-[#1A0D04]'
+                            : 'from-gray-700 to-gray-800 cursor-not-allowed border-gray-900 opacity-60'
+                        } text-white font-bold rounded-xl shadow-lg transition-all transform ${canAffordGnaw ? 'hover:-translate-y-1 active:translate-y-0' : ''} border-b-4`}
                     >
                         <TreePine size={24} />
                         <div className="flex flex-col items-start min-w-[120px]">
                             <span>Gnaw Wood</span>
-                            <span className="text-[10px] text-white/60 font-normal">+1 Wood</span>
+                            <span className="text-[10px] text-white/60 font-normal">+1 Wood (-100 Berries)</span>
                         </div>
                     </button>
                 </div>
