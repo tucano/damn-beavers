@@ -4,6 +4,7 @@ import { DevControls } from '@/components/ui/DevControls';
 import { Statistics } from '@/components/ui/Statistics';
 import { BeaverList } from '@/components/ui/BeaverList';
 import { VillageActions } from '@/components/ui/VillageActions';
+import { JobBoard } from '@/components/ui/JobBoard';
 import { useGameTime } from '@/hooks/useGameTime';
 
 function Home() {
@@ -23,6 +24,7 @@ function Home() {
 
         {/* Middle Column: Actions */}
         <div className="space-y-6">
+          <JobBoard />
           <VillageActions />
         </div>
 
