@@ -10,6 +10,7 @@ import {
   BERRY_CONSUMPTION_PER_DAY,
   DAYS_IN_YEAR,
   BEAVER_ARRIVAL_RATE,
+  BEAVER_GROWTH_RATIO,
   LODGE_CAPACITY,
 } from '@/config/game';
 
@@ -94,7 +95,7 @@ useTimeStore.subscribe(
       const capacity = lodges * LODGE_CAPACITY;
 
       if (survivors.length < capacity) {
-        if (Math.random() < BEAVER_ARRIVAL_RATE) {
+        if (Math.random() < BEAVER_ARRIVAL_RATE * (1 + BEAVER_GROWTH_RATIO)) {
           survivors.push({
             name: getRandomBeaverName(),
             age: 0,
