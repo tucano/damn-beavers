@@ -144,18 +144,18 @@ useTimeStore.subscribe(
             });
             logStore.addLog('A new beaver has joined the colony!', 'success');
           }
-
-          currentBeavers = survivors;
         }
 
-        // Update stores with final state
-        // We use increaseBerries with negative amount to subtract consumption
-        // However, we need to be careful not to double-subtract if we updated local currentBerries
-        // The store's increaseBerries adds to the CURRENT store value. 
-        // Since we calculated totalConsumed based on a snapshot, we should just subtract that total.
-        berryStore.increaseBerries(-totalConsumed);
-        beaverStore.setBeavers(currentBeavers);
+        currentBeavers = survivors;
       }
+
+      // Update stores with final state
+      // We use increaseBerries with negative amount to subtract consumption
+      // However, we need to be careful not to double-subtract if we updated local currentBerries
+      // The store's increaseBerries adds to the CURRENT store value. 
+      // Since we calculated totalConsumed based on a snapshot, we should just subtract that total.
+      berryStore.increaseBerries(-totalConsumed);
+      beaverStore.setBeavers(currentBeavers);
     }
   }
 );
