@@ -7,6 +7,7 @@ import { useLogStore } from '@/store/useLogStore';
 import { useTimeStore } from '@/store/useTimeStore';
 import { useLodgeStore } from '@/store/useLodgeStore';
 import { useBerryFieldStore } from '@/store/useBerryFieldStore';
+import * as gameConstants from '@/config/game';
 
 export function DevControls() {
     const { increaseBerries, reset: resetBerries } = useBerryStore();
@@ -38,57 +39,81 @@ export function DevControls() {
     };
 
     return (
-        <section className="bg-gray-900/40 border border-gray-800 rounded-xl p-5 shadow-sm">
-            <div className="flex items-center gap-2 mb-4 text-gray-400">
-                <Settings2 size={18} />
-                <h2 className="text-sm font-bold uppercase tracking-widest">Dev Controls</h2>
+        <section className="bg-gray-900/40 border border-gray-800 rounded-xl p-5 shadow-sm space-y-4">
+            <div>
+                <div className="flex items-center gap-2 mb-4 text-gray-400">
+                    <Settings2 size={18} />
+                    <h2 className="text-sm font-bold uppercase tracking-widest">Dev Controls</h2>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                    <button
+                        onClick={() => addBeavers(1)}
+                        className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
+                    >
+                        + Beaver
+                    </button>
+                    <button
+                        onClick={() => increaseBerries(1000)}
+                        className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
+                    >
+                        +1000 Berries
+                    </button>
+                    <button
+                        onClick={() => increaseWood(10)}
+                        className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
+                    >
+                        +10 Wood
+                    </button>
+                    <button
+                        onClick={() => increaseMud(10)}
+                        className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
+                    >
+                        +10 Mud
+                    </button>
+                    <button
+                        onClick={toggleSpeed}
+                        className={`flex-1 py-2 px-4 text-sm font-semibold rounded-lg transition-all border ${timeMultiplier === 100
+                            ? 'bg-amber-900/40 text-amber-400 border-amber-900/50 hover:bg-amber-900/60'
+                            : 'bg-gray-800 hover:bg-gray-700 text-gray-200 border-gray-700'
+                            }`}
+                    >
+                        {timeMultiplier === 100 ? '1x Speed' : '100x Speed'}
+                    </button>
+                    <button
+                        onClick={resetTime}
+                        className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
+                    >
+                        Reset Time
+                    </button>
+                    <button
+                        onClick={handleReset}
+                        className="w-full py-2 px-4 bg-red-900/20 hover:bg-red-900/40 text-red-400 text-sm font-semibold rounded-lg transition-all border border-red-900/50"
+                    >
+                        Reset All
+                    </button>
+                </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-                <button
-                    onClick={() => addBeavers(1)}
-                    className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
-                >
-                    + Beaver
-                </button>
-                <button
-                    onClick={() => increaseBerries(1000)}
-                    className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
-                >
-                    +1000 Berries
-                </button>
-                <button
-                    onClick={() => increaseWood(10)}
-                    className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
-                >
-                    +10 Wood
-                </button>
-                <button
-                    onClick={() => increaseMud(10)}
-                    className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
-                >
-                    +10 Mud
-                </button>
-                <button
-                    onClick={toggleSpeed}
-                    className={`flex-1 py-2 px-4 text-sm font-semibold rounded-lg transition-all border ${timeMultiplier === 100
-                        ? 'bg-amber-900/40 text-amber-400 border-amber-900/50 hover:bg-amber-900/60'
-                        : 'bg-gray-800 hover:bg-gray-700 text-gray-200 border-gray-700'
-                        }`}
-                >
-                    {timeMultiplier === 100 ? '1x Speed' : '100x Speed'}
-                </button>
-                <button
-                    onClick={resetTime}
-                    className="flex-1 py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold rounded-lg transition-all border border-gray-700"
-                >
-                    Reset Time
-                </button>
-                <button
-                    onClick={handleReset}
-                    className="w-full py-2 px-4 bg-red-900/20 hover:bg-red-900/40 text-red-400 text-sm font-semibold rounded-lg transition-all border border-red-900/50"
-                >
-                    Reset All
-                </button>
+
+            <div>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Game Constants</h3>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs text-gray-400">
+                        <thead className="bg-gray-800/50 uppercase text-gray-500">
+                            <tr>
+                                <th className="px-3 py-2">Name</th>
+                                <th className="px-3 py-2">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-800/50">
+                            {Object.entries(gameConstants).map(([key, value]) => (
+                                <tr key={key} className="hover:bg-gray-800/30">
+                                    <td className="px-3 py-1 font-mono">{key}</td>
+                                    <td className="px-3 py-1 font-mono text-gray-300">{value.toString()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
     );

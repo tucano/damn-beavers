@@ -68,4 +68,13 @@ describe('DevControls Component', () => {
         expect(useMudStore.getState().mud).toBe(0);
         expect(useBerryFieldStore.getState().berryFields).toBe(0);
     });
+
+    it('renders the game constants table', () => {
+        render(<DevControls />);
+        expect(screen.getByText('Game Constants')).toBeInTheDocument();
+        expect(screen.getByText('TICKS_PER_DAY')).toBeInTheDocument();
+        expect(screen.getAllByText('10').length).toBeGreaterThan(0); // Value for TICKS_PER_DAY and others
+        expect(screen.getByText('BERRY_CONSUMPTION_PER_TICK')).toBeInTheDocument();
+        expect(screen.getByText('0.85')).toBeInTheDocument();
+    });
 });
