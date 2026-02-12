@@ -12,7 +12,12 @@ export const useWoodStore = create<WoodState>()(
         (set) => ({
             wood: 0,
             increaseWood: (amount: number) =>
-                set((state) => ({ wood: state.wood + amount })),
+                set((state) => {
+                    if (typeof amount !== 'number' || isNaN(amount)) {
+                        return state;
+                    }
+                    return { wood: Math.max(0, state.wood + amount) };
+                }),
             reset: () => set({ wood: 0 }),
         }),
         {
