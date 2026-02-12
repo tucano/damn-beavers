@@ -65,4 +65,17 @@ describe('Home Component', () => {
         fireEvent.click(button);
         expect(screen.getByTestId('berry-count-header')).toHaveTextContent('2');
     });
+
+    it('renders DevControls when in development mode', () => {
+        // In Vitest, import.meta.env.DEV is true by default
+        render(<Home />);
+        expect(screen.getByText(/Dev Controls/i)).toBeInTheDocument();
+    });
+
+    it('does not render DevControls when not in development mode', () => {
+        vi.stubEnv('DEV', '');
+        render(<Home />);
+        expect(screen.queryByText(/Dev Controls/i)).not.toBeInTheDocument();
+        vi.unstubAllEnvs();
+    });
 });
