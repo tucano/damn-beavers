@@ -24,9 +24,9 @@ export const useBerryStore = create<BerryState>()(
 
 // Subscribe to game tick
 useTimeStore.subscribe(
-  (state) => state.days,
-  (days, prevDays) => {
-    if (days > prevDays) {
+  (state) => state.ticks,
+  (ticks, prevTicks) => {
+    if (ticks > prevTicks) {
       // Logic for berry-specific tick actions can go here
       // Berry consumption is currently handled by useBeaverStore subscription
     }

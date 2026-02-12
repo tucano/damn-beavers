@@ -8,12 +8,13 @@ import { useLogStore } from './useLogStore';
 import { useLodgeStore } from './useLodgeStore';
 import { useWoodStore } from './useWoodStore';
 import {
-  BERRY_CONSUMPTION_PER_DAY,
+  BERRY_CONSUMPTION_PER_TICK,
   DAYS_IN_YEAR,
   BEAVER_ARRIVAL_RATE,
   BEAVER_GROWTH_RATIO,
   LODGE_CAPACITY,
-  WOOD_GNAWER_PRODUCTION_PER_DAY
+  WOOD_GNAWER_PRODUCTION_PER_TICK,
+  TICKS_PER_DAY
 } from '@/config/game';
 
 interface BeaverState {
@@ -77,10 +78,10 @@ export const useBeaverStore = create<BeaverState>()(
 
 // Subscribe to game tick
 useTimeStore.subscribe(
-  (state) => state.days,
-  (days, prevDays) => {
-    if (days > prevDays) {
-      const daysPassed = days - prevDays;
+  (state) => state.ticks,
+  (ticks, prevTicks) => {
+    if (ticks > prevTicks) {
+      const ticksPassed = ticks - prevTicks;
       const beaverStore = useBeaverStore.getState();
       const berryStore = useBerryStore.getState();
       const woodStore = useWoodStore.getState();
@@ -89,20 +90,23 @@ useTimeStore.subscribe(
 
       let currentBerries = berryStore.berries;
       let totalConsumed = 0;
+      let totalWoodProduced = 0;
       let currentBeavers = [...beaverStore.beavers];
 
-      // Process each day individually to ensure correct simulation
-      for (let i = 0; i < daysPassed; i++) {
-        const currentDay = prevDays + i + 1;
+      // Process each tick individually
+      for (let i = 0; i < ticksPassed; i++) {
+        const currentTick = prevTicks + i + 1;
+        const ticksInYear = DAYS_IN_YEAR * TICKS_PER_DAY;
+        const yearPassed = Math.floor(currentTick / ticksInYear) > Math.floor((currentTick - 1) / ticksInYear);
 
         const updatedBeavers = currentBeavers.map((beaver) => {
           let health = beaver.health;
-          if (currentBerries >= BERRY_CONSUMPTION_PER_DAY) {
-            currentBerries -= BERRY_CONSUMPTION_PER_DAY;
-            totalConsumed += BERRY_CONSUMPTION_PER_DAY;
+          if (currentBerries >= BERRY_CONSUMPTION_PER_TICK) {
+            currentBerries -= BERRY_CONSUMPTION_PER_TICK;
+            totalConsumed += BERRY_CONSUMPTION_PER_TICK;
           } else {
-            // Can't eat fully
-            health -= 25;
+            // Scale damage to match approximately same time-to-death as before (25 per day -> 2.5 per tick)
+            health -= 2.5;
             // Consume what's left
             const remaining = Math.max(0, currentBerries);
             currentBerries -= remaining;
@@ -128,7 +132,7 @@ useTimeStore.subscribe(
         // Job Production
         const woodGnawers = survivors.filter((b) => b.job === 'woodGnawer').length;
         if (woodGnawers > 0) {
-          woodStore.increaseWood(woodGnawers * WOOD_GNAWER_PRODUCTION_PER_DAY);
+            totalWoodProduced += woodGnawers * WOOD_GNAWER_PRODUCTION_PER_TICK;
         }
 
         // Arrival logic
@@ -151,11 +155,10 @@ useTimeStore.subscribe(
       }
 
       // Update stores with final state
-      // We use increaseBerries with negative amount to subtract consumption
-      // However, we need to be careful not to double-subtract if we updated local currentBerries
-      // The store's increaseBerries adds to the CURRENT store value. 
-      // Since we calculated totalConsumed based on a snapshot, we should just subtract that total.
       berryStore.increaseBerries(-totalConsumed);
+      if (totalWoodProduced > 0) {
+          woodStore.increaseWood(totalWoodProduced);
+      }
       beaverStore.setBeavers(currentBeavers);
     }
   }
