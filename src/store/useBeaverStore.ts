@@ -9,7 +9,6 @@ import { useLodgeStore } from './useLodgeStore';
 import { useWoodStore } from './useWoodStore';
 import {
   BERRY_CONSUMPTION_PER_TICK,
-  DAYS_IN_YEAR,
   BEAVER_ARRIVAL_RATE,
   BEAVER_GROWTH_RATIO,
   LODGE_CAPACITY,
@@ -96,27 +95,32 @@ useTimeStore.subscribe(
       // Process each tick individually
       for (let i = 0; i < ticksPassed; i++) {
         const currentTick = prevTicks + i + 1;
-        const ticksInYear = DAYS_IN_YEAR * TICKS_PER_DAY;
-        const yearPassed = Math.floor(currentTick / ticksInYear) > Math.floor((currentTick - 1) / ticksInYear);
+        const ticksInDay = TICKS_PER_DAY;
+        const dayPassed = Math.floor(currentTick / ticksInDay) > Math.floor((currentTick - 1) / ticksInDay);
 
         const updatedBeavers = currentBeavers.map((beaver) => {
+          // Consumption Logic
           let health = beaver.health;
+          let consumed = 0;
+
           if (currentBerries >= BERRY_CONSUMPTION_PER_TICK) {
-            currentBerries -= BERRY_CONSUMPTION_PER_TICK;
-            totalConsumed += BERRY_CONSUMPTION_PER_TICK;
+            consumed = BERRY_CONSUMPTION_PER_TICK;
           } else {
-            // Scale damage to match approximately same time-to-death as before (25 per day -> 2.5 per tick)
+            // Starvation damage
             health -= 2.5;
-            // Consume what's left
-            const remaining = Math.max(0, currentBerries);
-            currentBerries -= remaining;
-            totalConsumed += remaining;
+            consumed = Math.max(0, currentBerries);
           }
+
+          currentBerries -= consumed;
+          totalConsumed += consumed;
+
+          // Aging Logic
+          const age = beaver.age + (dayPassed ? 1 : 0);
 
           return {
             ...beaver,
-            age: beaver.age + 1,
-            health: health,
+            age,
+            health,
           };
         });
 
@@ -132,7 +136,7 @@ useTimeStore.subscribe(
         // Job Production
         const woodGnawers = survivors.filter((b) => b.job === 'woodGnawer').length;
         if (woodGnawers > 0) {
-            totalWoodProduced += woodGnawers * WOOD_GNAWER_PRODUCTION_PER_TICK;
+          totalWoodProduced += woodGnawers * WOOD_GNAWER_PRODUCTION_PER_TICK;
         }
 
         // Arrival logic
@@ -145,7 +149,7 @@ useTimeStore.subscribe(
               name: getRandomBeaverName(),
               age: 0,
               health: 100,
-              birthday: currentDay,
+              birthday: useTimeStore.getState().days,
             });
             logStore.addLog('A new beaver has joined the colony!', 'success');
           }
@@ -157,7 +161,7 @@ useTimeStore.subscribe(
       // Update stores with final state
       berryStore.increaseBerries(-totalConsumed);
       if (totalWoodProduced > 0) {
-          woodStore.increaseWood(totalWoodProduced);
+        woodStore.increaseWood(totalWoodProduced);
       }
       beaverStore.setBeavers(currentBeavers);
     }

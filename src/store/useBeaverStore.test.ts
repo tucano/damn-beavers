@@ -11,11 +11,11 @@ describe('useBeaverStore', () => {
   // Reset store state before each test to prevent leakage
   beforeEach(() => {
     act(() => {
-        useBeaverStore.getState().reset();
-        useBerryStore.getState().reset();
-        useTimeStore.getState().reset();
-        useLogStore.getState().reset();
-        useLodgeStore.getState().reset();
+      useBeaverStore.getState().reset();
+      useBerryStore.getState().reset();
+      useTimeStore.getState().reset();
+      useLogStore.getState().reset();
+      useLodgeStore.getState().reset();
     });
   });
 
@@ -72,7 +72,7 @@ describe('useBeaverStore', () => {
 
     it('should kill beaver when health reaches 0', () => {
       act(() => {
-          useBeaverStore.getState().setBeavers([{ name: 'Starving Beaver', age: 0, health: 25, birthday: 0, job: undefined }]);
+        useBeaverStore.getState().setBeavers([{ name: 'Starving Beaver', age: 0, health: 25, birthday: 0, job: undefined }]);
       });
 
       act(() => {
@@ -100,7 +100,7 @@ describe('useBeaverStore', () => {
       });
 
       const beavers = useBeaverStore.getState().beavers;
-      expect(beavers[0].age).toBe(1);
+      expect(beavers[0].age).toBe(1); // Should be 1 day old
     });
 
     it('should increase age by DAYS_IN_YEAR after DAYS_IN_YEAR days', () => {
@@ -115,7 +115,7 @@ describe('useBeaverStore', () => {
       });
 
       let beavers = useBeaverStore.getState().beavers;
-      expect(beavers[0].age).toBe(0);
+      expect(beavers[0].age).toBe(DAYS_IN_YEAR - 1);
 
       // Advance to next day (completing the year)
       act(() => {
@@ -123,7 +123,7 @@ describe('useBeaverStore', () => {
       });
 
       beavers = useBeaverStore.getState().beavers;
-      expect(beavers[0].age).toBe(1);
+      expect(beavers[0].age).toBe(DAYS_IN_YEAR);
     });
   });
 

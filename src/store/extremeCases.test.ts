@@ -77,6 +77,7 @@ describe('Extreme Cases Store Logic', () => {
 
         const beaversAfter = useBeaverStore.getState().beavers;
         expect(beaversAfter[0].age).toBeGreaterThan(0);
+        expect(beaversAfter[0].age).toBe(DAYS_IN_YEAR + 1);
     });
 
 });

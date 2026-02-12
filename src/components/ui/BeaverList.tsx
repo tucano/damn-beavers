@@ -1,6 +1,5 @@
 import { Users } from 'lucide-react';
 import { useBeaverStore } from '@/store/useBeaverStore';
-import { DAYS_IN_YEAR } from '@/config/game';
 
 export function BeaverList() {
     const { beavers } = useBeaverStore();
@@ -23,14 +22,13 @@ export function BeaverList() {
                         >
                             <div className="flex justify-between items-center mb-2">
                                 <span className="font-bold text-white">{beaver.name}</span>
-                                <span className="text-xs text-gray-400">Age: {Math.floor(beaver.age / DAYS_IN_YEAR)}</span>
+                                <span className="text-xs text-gray-400">Age: {beaver.age} days</span>
                             </div>
                             <div className="w-full bg-gray-700 rounded-full h-1.5 overflow-hidden">
                                 <div
                                     data-testid={`beaver-health-bar-${index}`}
-                                    className={`h-full transition-all duration-500 ${
-                                        beaver.health > 50 ? 'bg-green-500' : beaver.health > 20 ? 'bg-yellow-500' : 'bg-red-500'
-                                    }`}
+                                    className={`h-full transition-all duration-500 ${beaver.health > 50 ? 'bg-green-500' : beaver.health > 20 ? 'bg-yellow-500' : 'bg-red-500'
+                                        }`}
                                     style={{ width: `${beaver.health}%` }}
                                 />
                             </div>

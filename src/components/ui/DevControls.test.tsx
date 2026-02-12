@@ -5,6 +5,7 @@ import { useBerryStore } from '@/store/useBerryStore';
 import { useBeaverStore } from '@/store/useBeaverStore';
 import { useWoodStore } from '@/store/useWoodStore';
 import { useMudStore } from '@/store/useMudStore';
+import { useBerryFieldStore } from '@/store/useBerryFieldStore';
 
 // Mock Lucide React icons
 vi.mock('lucide-react', () => ({
@@ -17,6 +18,7 @@ describe('DevControls Component', () => {
         useBeaverStore.setState({ beavers: [] });
         useWoodStore.setState({ wood: 0 });
         useMudStore.setState({ mud: 0 });
+        useBerryFieldStore.setState({ berryFields: 0 });
     });
 
     it('renders all buttons', () => {
@@ -51,9 +53,10 @@ describe('DevControls Component', () => {
     it('resets all resources when "Reset All" button is clicked', () => {
         // Set some initial state
         useBerryStore.setState({ berries: 10 });
-        useBeaverStore.setState({ beavers: [{ name: 'Test', age: 0, health: 100 }] });
+        useBeaverStore.setState({ beavers: [{ name: 'Test', age: 0, health: 100, birthday: 0 }] });
         useWoodStore.setState({ wood: 10 });
         useMudStore.setState({ mud: 10 });
+        useBerryFieldStore.setState({ berryFields: 5 });
 
         render(<DevControls />);
         const button = screen.getByRole('button', { name: /Reset All/i });
@@ -63,5 +66,6 @@ describe('DevControls Component', () => {
         expect(useBeaverStore.getState().beavers).toHaveLength(0);
         expect(useWoodStore.getState().wood).toBe(0);
         expect(useMudStore.getState().mud).toBe(0);
+        expect(useBerryFieldStore.getState().berryFields).toBe(0);
     });
 });

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useTimeStore } from '@/store/useTimeStore';
+import { GAME_TICK_TIME } from '@/config/game';
 
 export const useGameTime = () => {
   const tick = useTimeStore((state) => state.tick);
@@ -11,7 +12,7 @@ export const useGameTime = () => {
       if (!isPaused) {
         tick();
       }
-    }, 1000 / timeMultiplier);
+    }, GAME_TICK_TIME / timeMultiplier);
 
     return () => clearInterval(interval);
   }, [tick, isPaused, timeMultiplier]);

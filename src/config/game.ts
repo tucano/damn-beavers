@@ -12,6 +12,10 @@ export const SPRING_DAYS = 100;
 export const SUMMER_DAYS = 100;
 export const AUTUMN_DAYS = 100;
 
+// Game tick time
+// 10 ticks per day means 100ms per tick
+export const GAME_TICK_TIME = 1000 / TICKS_PER_DAY;
+
 // Buildings & Production
 export const BERRY_FIELD_BASE_COST = 10;
 export const BERRY_FIELD_PRICE_RATIO = 1.12;

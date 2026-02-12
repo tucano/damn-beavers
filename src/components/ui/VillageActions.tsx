@@ -3,7 +3,7 @@ import { useBerryStore } from '@/store/useBerryStore';
 import { useBerryFieldStore } from '@/store/useBerryFieldStore';
 import { useWoodStore } from '@/store/useWoodStore';
 import { useLodgeStore } from '@/store/useLodgeStore';
-import { useLogStore } from '@/store/useLogStore';
+
 import {
     BERRY_FIELD_BASE_COST,
     BERRY_FIELD_PRICE_RATIO,
@@ -20,11 +20,9 @@ export function VillageActions() {
     const increaseWood = useWoodStore((state) => state.increaseWood);
     const lodges = useLodgeStore((state) => state.lodges);
     const buildLodge = useLodgeStore((state) => state.buildLodge);
-    const addLog = useLogStore((state) => state.addLog);
 
     const handleGatherBerries = () => {
         increaseBerries(1);
-        addLog('Gathered 1 berry', 'success');
     };
 
     const canAffordGnaw = useBerryStore((state) => state.berries >= 100);
@@ -33,7 +31,6 @@ export function VillageActions() {
         if (canAffordGnaw) {
             increaseBerries(-100);
             increaseWood(1);
-            addLog('Gnawed some wood for 100 berries', 'success');
         }
     };
 
@@ -44,7 +41,6 @@ export function VillageActions() {
     const handleBuildBerryField = () => {
         if (canAffordField) {
             buildBerryField();
-            addLog(`Built a Berry Field for ${nextFieldCost} berries`, 'success');
         }
     };
 
@@ -55,7 +51,6 @@ export function VillageActions() {
     const handleBuildLodge = () => {
         if (canAffordLodge) {
             buildLodge();
-            addLog(`Built a Lodge for ${nextLodgeWoodCost} wood`, 'success');
         }
     };
 
