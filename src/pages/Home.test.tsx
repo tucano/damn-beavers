@@ -73,7 +73,7 @@ describe('Home Component', () => {
     });
 
     it('does not render DevControls when not in development mode', () => {
-        vi.stubEnv('DEV', '');
+        vi.stubEnv('DEV', false);
         render(<Home />);
         expect(screen.queryByText(/Dev Controls/i)).not.toBeInTheDocument();
         vi.unstubAllEnvs();
