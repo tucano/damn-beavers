@@ -39,6 +39,7 @@ export const useBeaverStore = create<BeaverState>()(
               age: 0,
               health: 100,
               job: undefined,
+              birthday: useTimeStore.getState().days,
             })),
           ],
         })),
@@ -114,7 +115,7 @@ useTimeStore.subscribe(
 
           return {
             ...beaver,
-            age: yearPassed ? beaver.age + 1 : beaver.age,
+            age: beaver.age + 1,
             health: health,
           };
         });
@@ -144,6 +145,7 @@ useTimeStore.subscribe(
               name: getRandomBeaverName(),
               age: 0,
               health: 100,
+              birthday: currentDay,
             });
             logStore.addLog('A new beaver has joined the colony!', 'success');
           }

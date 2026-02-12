@@ -3,4 +3,5 @@ export interface Beaver {
   age: number;
   health: number;
   job?: string;
+  birthday: number;
 }

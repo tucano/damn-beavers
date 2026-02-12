@@ -46,8 +46,8 @@ describe('useBeaverStore', () => {
 
     act(() => {
       result.current.setBeavers([
-        { name: 'Beaver', age: 0, health: 100, job: undefined },
-        { name: 'Beaver', age: 0, health: 100, job: undefined },
+        { name: 'Beaver', age: 0, health: 100, birthday: 0, job: undefined },
+        { name: 'Beaver', age: 0, health: 100, birthday: 0, job: undefined },
       ]);
     });
 
@@ -72,7 +72,7 @@ describe('useBeaverStore', () => {
 
     it('should kill beaver when health reaches 0', () => {
       act(() => {
-          useBeaverStore.getState().setBeavers([{ name: 'Starving Beaver', age: 0, health: 25, job: undefined }]);
+          useBeaverStore.getState().setBeavers([{ name: 'Starving Beaver', age: 0, health: 25, birthday: 0, job: undefined }]);
       });
 
       act(() => {
@@ -89,7 +89,7 @@ describe('useBeaverStore', () => {
   });
 
   describe('Aging logic', () => {
-    it('should not increase age every day', () => {
+    it('should increase age every day', () => {
       act(() => {
         useBeaverStore.getState().addBeavers(1);
         useBerryStore.getState().increaseBerries(100); // Give them food
@@ -100,10 +100,10 @@ describe('useBeaverStore', () => {
       });
 
       const beavers = useBeaverStore.getState().beavers;
-      expect(beavers[0].age).toBe(0);
+      expect(beavers[0].age).toBe(1);
     });
 
-    it('should increase age by 1 after DAYS_IN_YEAR days', () => {
+    it('should increase age by DAYS_IN_YEAR after DAYS_IN_YEAR days', () => {
       act(() => {
         useBeaverStore.getState().addBeavers(1);
         useBerryStore.getState().increaseBerries(5000); // Give them food
