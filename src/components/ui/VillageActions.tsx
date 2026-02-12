@@ -12,18 +12,21 @@ import {
 } from '@/config/game';
 
 export function VillageActions() {
-    const { berries, increaseBerries } = useBerryStore();
-    const { berryFields, buildBerryField } = useBerryFieldStore();
-    const { wood, increaseWood } = useWoodStore();
-    const { lodges, buildLodge } = useLodgeStore();
-    const { addLog } = useLogStore();
+    // Select specific actions and state
+    const increaseBerries = useBerryStore((state) => state.increaseBerries);
+    const berryFields = useBerryFieldStore((state) => state.berryFields);
+    const buildBerryField = useBerryFieldStore((state) => state.buildBerryField);
+    const increaseWood = useWoodStore((state) => state.increaseWood);
+    const lodges = useLodgeStore((state) => state.lodges);
+    const buildLodge = useLodgeStore((state) => state.buildLodge);
+    const addLog = useLogStore((state) => state.addLog);
 
     const handleGatherBerries = () => {
         increaseBerries(1);
         addLog('Gathered 1 berry', 'success');
     };
 
-    const canAffordGnaw = berries >= 100;
+    const canAffordGnaw = useBerryStore((state) => state.berries >= 100);
 
     const handleGatherWood = () => {
         if (canAffordGnaw) {
@@ -34,7 +37,8 @@ export function VillageActions() {
     };
 
     const nextFieldCost = Math.floor(BERRY_FIELD_BASE_COST * Math.pow(BERRY_FIELD_PRICE_RATIO, berryFields));
-    const canAffordField = berries >= nextFieldCost;
+    // Select boolean result directly to avoid re-renders on every berry change
+    const canAffordField = useBerryStore((state) => state.berries >= nextFieldCost);
 
     const handleBuildBerryField = () => {
         if (canAffordField) {
@@ -44,7 +48,8 @@ export function VillageActions() {
     };
 
     const nextLodgeWoodCost = Math.floor(LODGE_BASE_COST_WOOD * Math.pow(LODGE_PRICE_RATIO, lodges));
-    const canAffordLodge = wood >= nextLodgeWoodCost;
+    // Select boolean result directly to avoid re-renders on every wood change
+    const canAffordLodge = useWoodStore((state) => state.wood >= nextLodgeWoodCost);
 
     const handleBuildLodge = () => {
         if (canAffordLodge) {
