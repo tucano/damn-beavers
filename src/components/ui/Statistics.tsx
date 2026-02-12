@@ -9,12 +9,12 @@ import { formatResource } from '@/utils/numberHelper';
 import { LODGE_CAPACITY } from '@/config/game';
 
 export function Statistics() {
-    const { berries } = useBerryStore();
-    const { beavers } = useBeaverStore();
-    const { wood } = useWoodStore();
-    const { mud } = useMudStore();
-    const { berryFields } = useBerryFieldStore();
-    const { lodges } = useLodgeStore();
+    const berries = useBerryStore((state) => state.berries);
+    const beavers = useBeaverStore((state) => state.beavers);
+    const wood = useWoodStore((state) => state.wood);
+    const mud = useMudStore((state) => state.mud);
+    const berryFields = useBerryFieldStore((state) => state.berryFields);
+    const lodges = useLodgeStore((state) => state.lodges);
 
     const totalCapacity = lodges * LODGE_CAPACITY;
 
