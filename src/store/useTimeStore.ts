@@ -21,14 +21,20 @@ export const useTimeStore = create<TimeState>()(
                 isPaused: false,
                 timeMultiplier: 1,
                 increaseDays: (amount: number) =>
-                    set((state) => ({ days: state.days + amount })),
+                    set((state) => {
+                        if (amount < 0) return state;
+                        return { days: state.days + amount };
+                    }),
                 tick: () => set((state) => ({ days: state.days + 1 })),
                 togglePause: () =>
                     set((state) => ({ isPaused: !state.isPaused })),
                 setPaused: (paused: boolean) =>
                     set({ isPaused: paused }),
                 setTimeMultiplier: (multiplier: number) =>
-                    set({ timeMultiplier: multiplier }),
+                    set((state) => {
+                        if (multiplier <= 0) return state;
+                        return { timeMultiplier: multiplier };
+                    }),
                 reset: () => set({ days: 0, isPaused: false, timeMultiplier: 1 }),
             }),
             {
