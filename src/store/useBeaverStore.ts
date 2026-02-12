@@ -38,6 +38,7 @@ export const useBeaverStore = create<BeaverState>()(
               age: 0,
               health: 100,
               job: undefined,
+              birthday: useTimeStore.getState().days,
             })),
           ],
         })),
@@ -93,7 +94,6 @@ useTimeStore.subscribe(
       // Process each day individually to ensure correct simulation
       for (let i = 0; i < daysPassed; i++) {
         const currentDay = prevDays + i + 1;
-        const yearPassed = Math.floor(currentDay / DAYS_IN_YEAR) > Math.floor((currentDay - 1) / DAYS_IN_YEAR);
 
         const updatedBeavers = currentBeavers.map((beaver) => {
           let health = beaver.health;
@@ -111,7 +111,7 @@ useTimeStore.subscribe(
 
           return {
             ...beaver,
-            age: yearPassed ? beaver.age + 1 : beaver.age,
+            age: beaver.age + 1,
             health: health,
           };
         });
@@ -141,6 +141,7 @@ useTimeStore.subscribe(
               name: getRandomBeaverName(),
               age: 0,
               health: 100,
+              birthday: currentDay,
             });
             logStore.addLog('A new beaver has joined the colony!', 'success');
           }

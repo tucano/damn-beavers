@@ -61,7 +61,7 @@ describe('Extreme Cases Store Logic', () => {
 
         // We expect the FULL consumption
         expect(initialBerries - finalBerries).toBeCloseTo(expectedConsumption, 5);
-        expect(beavers[0].age).toBe(0); // Should be 0 unless we crossed a year, but checking logic ran is key
+        expect(beavers[0].age).toBe(10); // Should be 10 days older
     });
 
     it('Time Skipping: 1 year jump should age beavers', () => {

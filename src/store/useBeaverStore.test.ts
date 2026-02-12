@@ -46,8 +46,8 @@ describe('useBeaverStore', () => {
 
     act(() => {
       result.current.setBeavers([
-        { name: 'Beaver', age: 0, health: 100 },
-        { name: 'Beaver', age: 0, health: 100 },
+        { name: 'Beaver', age: 0, health: 100, birthday: 0 },
+        { name: 'Beaver', age: 0, health: 100, birthday: 0 },
       ]);
     });
 
@@ -71,7 +71,7 @@ describe('useBeaverStore', () => {
 
     it('should kill beaver when health reaches 0', () => {
       act(() => {
-          useBeaverStore.getState().setBeavers([{ name: 'Starving Beaver', age: 0, health: 25 }]);
+          useBeaverStore.getState().setBeavers([{ name: 'Starving Beaver', age: 0, health: 25, birthday: 0 }]);
       });
 
       act(() => {
@@ -87,7 +87,7 @@ describe('useBeaverStore', () => {
   });
 
   describe('Aging logic', () => {
-    it('should not increase age every day', () => {
+    it('should increase age every day', () => {
       act(() => {
         useBeaverStore.getState().addBeavers(1);
         useBerryStore.getState().increaseBerries(100); // Give them food
@@ -98,32 +98,24 @@ describe('useBeaverStore', () => {
       });
 
       const beavers = useBeaverStore.getState().beavers;
-      expect(beavers[0].age).toBe(0);
+      expect(beavers[0].age).toBe(1);
     });
 
-    it('should increase age by 1 after DAYS_IN_YEAR days', () => {
+    it('should increase age by DAYS_IN_YEAR after DAYS_IN_YEAR days', () => {
       act(() => {
         useBeaverStore.getState().addBeavers(1);
         useBerryStore.getState().increaseBerries(1000); // Give them food
       });
 
-      // Advance 364 days
-      for (let i = 0; i < DAYS_IN_YEAR - 1; i++) {
+      // Advance 365 days
+      for (let i = 0; i < DAYS_IN_YEAR; i++) {
         act(() => {
           useTimeStore.getState().tick();
         });
       }
 
-      let beavers = useBeaverStore.getState().beavers;
-      expect(beavers[0].age).toBe(0);
-
-      // Advance to day 365
-      act(() => {
-        useTimeStore.getState().tick();
-      });
-
-      beavers = useBeaverStore.getState().beavers;
-      expect(beavers[0].age).toBe(1);
+      const beavers = useBeaverStore.getState().beavers;
+      expect(beavers[0].age).toBe(DAYS_IN_YEAR);
     });
   });
 
