@@ -3,7 +3,7 @@ import { useBeaverStore } from './useBeaverStore';
 import { useWoodStore } from './useWoodStore';
 import { useTimeStore } from './useTimeStore';
 import { useBerryStore } from './useBerryStore';
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { WOOD_GNAWER_PRODUCTION_PER_DAY } from '@/config/game';
 
 describe('useBeaverStore Jobs', () => {
@@ -51,7 +51,7 @@ describe('useBeaverStore Jobs', () => {
     });
 
     it('should handle unassigning all jobs via count exceeding assigned', () => {
-         const { result } = renderHook(() => useBeaverStore());
+        const { result } = renderHook(() => useBeaverStore());
 
         act(() => {
             result.current.addBeavers(5);

@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { JobBoard } from './JobBoard';
 import { useBeaverStore } from '@/store/useBeaverStore';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('JobBoard', () => {
     beforeEach(() => {
