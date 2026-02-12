@@ -16,7 +16,7 @@ function Home() {
       <main className="flex-1 max-w-7xl w-full mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
         {/* Left Column: Stats & Dev Controls */}
         <div className="space-y-6">
-          <DevControls />
+          {import.meta.env.DEV && <DevControls />}
           <Statistics />
           <BeaverList />
         </div>
