@@ -4,7 +4,7 @@ import { useWoodStore } from './useWoodStore';
 import { useTimeStore } from './useTimeStore';
 import { useBerryStore } from './useBerryStore';
 import { describe, it, expect, beforeEach } from 'vitest';
-import { WOOD_GNAWER_PRODUCTION_PER_DAY } from '@/config/game';
+import { WOOD_GNAWER_PRODUCTION_PER_TICK } from '@/config/game';
 
 describe('useBeaverStore Jobs', () => {
     beforeEach(() => {
@@ -81,23 +81,19 @@ describe('useBeaverStore Jobs', () => {
             useTimeStore.getState().tick();
         });
 
-        expect(useWoodStore.getState().wood).toBeCloseTo(2 * WOOD_GNAWER_PRODUCTION_PER_DAY);
+        expect(useWoodStore.getState().wood).toBeCloseTo(2 * WOOD_GNAWER_PRODUCTION_PER_TICK);
     });
 
     it('should stop production if worker dies', () => {
         const { result } = renderHook(() => useBeaverStore());
 
         act(() => {
-            // Add a beaver with low health
-            result.current.setBeavers([{ name: 'Dying Worker', age: 10, health: 10, job: 'woodGnawer' }]);
+            // Add a beaver with very low health so it dies in 1 tick (damage is 2.5)
+            result.current.setBeavers([{ name: 'Dying Worker', age: 10, health: 1, job: 'woodGnawer' }]);
         });
 
-        // Tick 1: Starves and health drops to -15, dies.
-        // Production logic happens BEFORE death in the tick? Or AFTER?
-        // Let's check logic order:
-        // 1. Calculate consumption/health
-        // 2. Filter survivors
-        // 3. Job Production (using survivors)
+        // Tick 1: Starves and health drops to -1.5, dies.
+        // Production logic happens AFTER filtering survivors.
         // So if it dies this tick, it produces nothing.
 
         act(() => {

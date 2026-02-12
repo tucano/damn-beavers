@@ -4,7 +4,14 @@ import { useBerryFieldStore } from './useBerryFieldStore';
 import { useBerryStore } from './useBerryStore';
 import { useTimeStore } from './useTimeStore';
 import { useBeaverStore } from './useBeaverStore';
-import { BERRY_FIELD_BASE_COST, BERRY_FIELD_PRODUCTION_PER_DAY } from '../config/game';
+import {
+    BERRY_FIELD_BASE_COST,
+    BERRY_FIELD_PRODUCTION_PER_TICK,
+    TICKS_PER_DAY,
+    WINTER_DAYS,
+    SPRING_DAYS,
+    SUMMER_DAYS
+} from '../config/game';
 
 describe('useBerryFieldStore', () => {
   beforeEach(() => {
@@ -61,11 +68,12 @@ describe('useBerryFieldStore', () => {
     // Day 0 is Winter.
     // Tick to Day 1.
     act(() => {
-      useTimeStore.getState().tick();
+      useTimeStore.getState().increaseDays(1);
     });
 
     // Winter modifier is 0.25
-    expect(useBerryStore.getState().berries).toBeCloseTo(BERRY_FIELD_PRODUCTION_PER_DAY * 0.25);
+    // Daily production = PER_TICK * TICKS_PER_DAY
+    expect(useBerryStore.getState().berries).toBeCloseTo(BERRY_FIELD_PRODUCTION_PER_TICK * TICKS_PER_DAY * 0.25);
   });
 
   it('should use Spring modifier (1.5x)', () => {
@@ -75,19 +83,19 @@ describe('useBerryFieldStore', () => {
       useBerryStore.getState().increaseBerries(BERRY_FIELD_BASE_COST);
       result.current.buildBerryField();
 
-      // Jump to Spring (WINTER_DAYS = 90)
-      useTimeStore.getState().increaseDays(90);
+      // Jump to Spring
+      useTimeStore.getState().increaseDays(WINTER_DAYS);
     });
 
-    expect(useTimeStore.getState().days).toBe(90);
+    expect(useTimeStore.getState().days).toBe(WINTER_DAYS);
 
     act(() => {
-      // Reset berries AFTER jumping to ensure we only count the next tick's production
+      // Reset berries AFTER jumping to ensure we only count the next day's production
       useBerryStore.getState().reset();
-      useTimeStore.getState().tick(); // Day 90 -> 91
+      useTimeStore.getState().increaseDays(1);
     });
 
-    expect(useBerryStore.getState().berries).toBeCloseTo(BERRY_FIELD_PRODUCTION_PER_DAY * 1.5);
+    expect(useBerryStore.getState().berries).toBeCloseTo(BERRY_FIELD_PRODUCTION_PER_TICK * TICKS_PER_DAY * 1.5);
   });
 
   it('should use Summer modifier (1.0x)', () => {
@@ -97,18 +105,18 @@ describe('useBerryFieldStore', () => {
       useBerryStore.getState().increaseBerries(BERRY_FIELD_BASE_COST);
       result.current.buildBerryField();
 
-      // Jump to Summer (WINTER_DAYS + SPRING_DAYS = 90 + 92 = 182)
-      useTimeStore.getState().increaseDays(182);
+      // Jump to Summer
+      useTimeStore.getState().increaseDays(WINTER_DAYS + SPRING_DAYS);
     });
 
-    expect(useTimeStore.getState().days).toBe(182);
+    expect(useTimeStore.getState().days).toBe(WINTER_DAYS + SPRING_DAYS);
 
     act(() => {
       useBerryStore.getState().reset();
-      useTimeStore.getState().tick();
+      useTimeStore.getState().increaseDays(1);
     });
 
-    expect(useBerryStore.getState().berries).toBeCloseTo(BERRY_FIELD_PRODUCTION_PER_DAY * 1.0);
+    expect(useBerryStore.getState().berries).toBeCloseTo(BERRY_FIELD_PRODUCTION_PER_TICK * TICKS_PER_DAY * 1.0);
   });
 
   it('should use Autumn modifier (1.0x)', () => {
@@ -118,17 +126,17 @@ describe('useBerryFieldStore', () => {
       useBerryStore.getState().increaseBerries(BERRY_FIELD_BASE_COST);
       result.current.buildBerryField();
 
-      // Jump to Autumn (WINTER_DAYS + SPRING_DAYS + SUMMER_DAYS = 90 + 92 + 92 = 274)
-      useTimeStore.getState().increaseDays(274);
+      // Jump to Autumn
+      useTimeStore.getState().increaseDays(WINTER_DAYS + SPRING_DAYS + SUMMER_DAYS);
     });
 
-    expect(useTimeStore.getState().days).toBe(274);
+    expect(useTimeStore.getState().days).toBe(WINTER_DAYS + SPRING_DAYS + SUMMER_DAYS);
 
     act(() => {
       useBerryStore.getState().reset();
-      useTimeStore.getState().tick();
+      useTimeStore.getState().increaseDays(1);
     });
 
-    expect(useBerryStore.getState().berries).toBeCloseTo(BERRY_FIELD_PRODUCTION_PER_DAY * 1.0);
+    expect(useBerryStore.getState().berries).toBeCloseTo(BERRY_FIELD_PRODUCTION_PER_TICK * TICKS_PER_DAY * 1.0);
   });
 });

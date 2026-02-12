@@ -1,6 +1,6 @@
 import { Briefcase } from 'lucide-react';
 import { useBeaverStore } from '@/store/useBeaverStore';
-import { WOOD_GNAWER_PRODUCTION_PER_DAY } from '@/config/game';
+import { WOOD_GNAWER_PRODUCTION_PER_TICK, TICKS_PER_DAY } from '@/config/game';
 
 export function JobBoard() {
     const { beavers, assignJob, unassignJob } = useBeaverStore();
@@ -43,7 +43,7 @@ export function JobBoard() {
                         <div>
                             <span className="font-bold text-white block">Wood Gnawer</span>
                             <span className="text-xs text-gray-500">
-                                +{(woodGnawerCount * WOOD_GNAWER_PRODUCTION_PER_DAY).toFixed(2)} Wood / day
+                                +{(woodGnawerCount * WOOD_GNAWER_PRODUCTION_PER_TICK * TICKS_PER_DAY).toFixed(2)} Wood / day
                             </span>
                         </div>
                         <span className="text-xl font-mono text-white">{woodGnawerCount}</span>

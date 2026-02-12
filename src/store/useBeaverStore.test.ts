@@ -46,8 +46,8 @@ describe('useBeaverStore', () => {
 
     act(() => {
       result.current.setBeavers([
-        { name: 'Beaver', age: 0, health: 100 },
-        { name: 'Beaver', age: 0, health: 100 },
+        { name: 'Beaver', age: 0, health: 100, job: undefined },
+        { name: 'Beaver', age: 0, health: 100, job: undefined },
       ]);
     });
 
@@ -62,7 +62,8 @@ describe('useBeaverStore', () => {
       });
 
       act(() => {
-        useTimeStore.getState().tick();
+        // Advance 1 day (10 ticks). Damage is 2.5 per tick * 10 = 25.
+        useTimeStore.getState().increaseDays(1);
       });
 
       const beavers = useBeaverStore.getState().beavers;
@@ -71,11 +72,12 @@ describe('useBeaverStore', () => {
 
     it('should kill beaver when health reaches 0', () => {
       act(() => {
-          useBeaverStore.getState().setBeavers([{ name: 'Starving Beaver', age: 0, health: 25 }]);
+          useBeaverStore.getState().setBeavers([{ name: 'Starving Beaver', age: 0, health: 25, job: undefined }]);
       });
 
       act(() => {
-        useTimeStore.getState().tick();
+        // Advance 1 day (10 ticks). Damage 25. Health 25 -> 0.
+        useTimeStore.getState().increaseDays(1);
       });
 
       const beavers = useBeaverStore.getState().beavers;
@@ -94,7 +96,7 @@ describe('useBeaverStore', () => {
       });
 
       act(() => {
-        useTimeStore.getState().tick();
+        useTimeStore.getState().increaseDays(1);
       });
 
       const beavers = useBeaverStore.getState().beavers;
@@ -104,22 +106,20 @@ describe('useBeaverStore', () => {
     it('should increase age by 1 after DAYS_IN_YEAR days', () => {
       act(() => {
         useBeaverStore.getState().addBeavers(1);
-        useBerryStore.getState().increaseBerries(1000); // Give them food
+        useBerryStore.getState().increaseBerries(5000); // Give them food
       });
 
-      // Advance 364 days
-      for (let i = 0; i < DAYS_IN_YEAR - 1; i++) {
-        act(() => {
-          useTimeStore.getState().tick();
-        });
-      }
+      // Advance DAYS_IN_YEAR - 1 days
+      act(() => {
+        useTimeStore.getState().increaseDays(DAYS_IN_YEAR - 1);
+      });
 
       let beavers = useBeaverStore.getState().beavers;
       expect(beavers[0].age).toBe(0);
 
-      // Advance to day 365
+      // Advance to next day (completing the year)
       act(() => {
-        useTimeStore.getState().tick();
+        useTimeStore.getState().increaseDays(1);
       });
 
       beavers = useBeaverStore.getState().beavers;

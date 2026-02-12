@@ -5,7 +5,7 @@ import { useTimeStore } from './useTimeStore';
 import { useLogStore } from './useLogStore';
 import { useLodgeStore } from './useLodgeStore';
 import { describe, it, expect, beforeEach } from 'vitest';
-import { BERRY_CONSUMPTION_PER_DAY, DAYS_IN_YEAR } from '@/config/game';
+import { BERRY_CONSUMPTION_PER_TICK, TICKS_PER_DAY, DAYS_IN_YEAR } from '@/config/game';
 
 describe('Extreme Cases Store Logic', () => {
     beforeEach(() => {
@@ -31,7 +31,8 @@ describe('Extreme Cases Store Logic', () => {
         const beavers = useBeaverStore.getState().beavers;
         expect(beavers.length).toBe(50);
         beavers.forEach(b => {
-            expect(b.health).toBe(75); // 100 - 25
+            // Damage is 2.5 per tick.
+            expect(b.health).toBe(97.5);
         });
     });
 
@@ -44,7 +45,8 @@ describe('Extreme Cases Store Logic', () => {
 
         const initialBerries = useBerryStore.getState().berries;
         const daysToSkip = 10;
-        const expectedConsumption = BERRY_CONSUMPTION_PER_DAY * daysToSkip;
+        // Consumption per tick * ticks per day * days
+        const expectedConsumption = BERRY_CONSUMPTION_PER_TICK * TICKS_PER_DAY * daysToSkip;
 
         // Action: Skip 10 days
         act(() => {
@@ -55,13 +57,9 @@ describe('Extreme Cases Store Logic', () => {
         const finalBerries = useBerryStore.getState().berries;
         const beavers = useBeaverStore.getState().beavers;
 
-        // EXPECTATION: logic should run for 10 days
-        // Current implementation likely only runs once or not at all depending on how the subscription triggers
-        // If it only triggers once on 'days', it might just process 1 day of consumption for a jump of 10 days.
-
-        // We expect the FULL consumption
+        // EXPECTATION: logic should run for 10 days (100 ticks)
         expect(initialBerries - finalBerries).toBeCloseTo(expectedConsumption, 5);
-        expect(beavers[0].age).toBe(0); // Should be 0 unless we crossed a year, but checking logic ran is key
+        expect(beavers[0].age).toBe(0);
     });
 
     it('Time Skipping: 1 year jump should age beavers', () => {

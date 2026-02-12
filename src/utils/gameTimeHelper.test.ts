@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { formatGameTime } from './gameTimeHelper';
-import { WINTER_DAYS, SPRING_DAYS, SUMMER_DAYS } from '@/config/game';
+import { WINTER_DAYS, SPRING_DAYS, SUMMER_DAYS, DAYS_IN_YEAR } from '@/config/game';
 
 describe('gameTimeHelper', () => {
     describe('formatGameTime', () => {
@@ -25,12 +25,12 @@ describe('gameTimeHelper', () => {
         });
 
         it('formats first day of Year 2 correctly', () => {
-            expect(formatGameTime(365)).toBe('Year 2 - Winter - Day 1');
+            expect(formatGameTime(DAYS_IN_YEAR)).toBe('Year 2 - Winter - Day 1');
         });
 
         it('formats a day in the middle of Summer correctly', () => {
-            // Winter 90 + Spring 92 + 15 days of Summer
-            const days = 90 + 92 + 14;
+            // Winter 100 + Spring 100 + 15 days of Summer
+            const days = WINTER_DAYS + SPRING_DAYS + 14;
             expect(formatGameTime(days)).toBe('Year 1 - Summer - Day 15');
         });
     });
