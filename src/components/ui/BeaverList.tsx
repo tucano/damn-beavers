@@ -1,5 +1,6 @@
 import { Users } from 'lucide-react';
 import { useBeaverStore } from '@/store/useBeaverStore';
+import { formatBeaverAge } from '@/utils/gameTimeHelper';
 
 export function BeaverList() {
     const { beavers } = useBeaverStore();
@@ -22,7 +23,7 @@ export function BeaverList() {
                         >
                             <div className="flex justify-between items-center mb-2">
                                 <span className="font-bold text-white">{beaver.name}</span>
-                                <span className="text-xs text-gray-400">Age: {beaver.age} days</span>
+                                <span className="text-xs text-gray-400">Age: {formatBeaverAge(beaver.age)}</span>
                             </div>
                             <div className="w-full bg-gray-700 rounded-full h-1.5 overflow-hidden">
                                 <div
