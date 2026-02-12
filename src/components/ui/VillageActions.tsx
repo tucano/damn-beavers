@@ -10,6 +10,7 @@ import {
     LODGE_BASE_COST_WOOD,
     LODGE_PRICE_RATIO
 } from '@/config/game';
+import { VillageActionButton } from './VillageActionButton';
 
 export function VillageActions() {
     // Select specific actions and state
@@ -68,72 +69,48 @@ export function VillageActions() {
             <div className="grid grid-cols-1 gap-6">
                 {/* Gather Actions Grid */}
                 <div className="grid grid-cols-1 gap-3">
-                    <button
+                    <VillageActionButton
                         onClick={handleGatherBerries}
-                        className="group w-full py-3 flex items-center justify-center gap-4 bg-gradient-to-br from-[#8B4513] to-[#5D2E0C] hover:from-[#A0522D] hover:to-[#8B4513] text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-1 active:translate-y-0 border-b-4 border-[#3D1F08]"
-                    >
-                        <Barrel size={24} />
-                        <div className="flex flex-col items-start min-w-[120px]">
-                            <span>Gather Berries</span>
-                            <span className="text-[10px] text-white/60 font-normal">+1 Berry</span>
-                        </div>
-                    </button>
-                    <button
+                        label="Gather Berries"
+                        subLabel="+1 Berry"
+                        icon={Barrel}
+                        gradientClasses="from-[#8B4513] to-[#5D2E0C] hover:from-[#A0522D] hover:to-[#8B4513] border-[#3D1F08]"
+                        variant="gather"
+                    />
+                    <VillageActionButton
                         onClick={handleGatherWood}
                         disabled={!canAffordGnaw}
-                        className={`group w-full py-3 flex items-center justify-center gap-4 bg-gradient-to-br ${
-                            canAffordGnaw
-                            ? 'from-[#5D2E0C] to-[#3D1F08] hover:from-[#8B4513] hover:to-[#5D2E0C] border-[#1A0D04]'
-                            : 'from-gray-700 to-gray-800 cursor-not-allowed border-gray-900 opacity-60'
-                        } text-white font-bold rounded-xl shadow-lg transition-all transform ${canAffordGnaw ? 'hover:-translate-y-1 active:translate-y-0' : ''} border-b-4`}
-                    >
-                        <TreePine size={24} />
-                        <div className="flex flex-col items-start min-w-[120px]">
-                            <span>Gnaw Wood</span>
-                            <span className="text-[10px] text-white/60 font-normal">+1 Wood (-100 Berries)</span>
-                        </div>
-                    </button>
+                        label="Gnaw Wood"
+                        subLabel="+1 Wood (-100 Berries)"
+                        icon={TreePine}
+                        gradientClasses="from-[#5D2E0C] to-[#3D1F08] hover:from-[#8B4513] hover:to-[#5D2E0C] border-[#1A0D04]"
+                        variant="gather"
+                    />
                 </div>
 
                 <hr className="border-gray-800" />
 
                 {/* Build Actions */}
                 <div className="grid grid-cols-1 gap-3">
-                    <button
+                    <VillageActionButton
                         onClick={handleBuildBerryField}
                         disabled={!canAffordField}
-                        className={`group w-full p-4 flex items-center gap-4 bg-gradient-to-br ${
-                            canAffordField
-                            ? 'from-[#228B22] to-[#006400] hover:from-[#32CD32] hover:to-[#228B22] border-[#004d00]'
-                            : 'from-gray-700 to-gray-800 cursor-not-allowed border-gray-900 opacity-60'
-                        } text-white font-bold rounded-xl shadow-lg transition-all transform ${canAffordField ? 'hover:-translate-y-1 active:translate-y-0' : ''} border-b-4`}
-                    >
-                        <div className="bg-white/10 p-2 rounded-lg group-hover:scale-110 transition-transform">
-                            <Wheat size={24} />
-                        </div>
-                        <div className="text-left">
-                            <span className="block text-lg">Berry Field ({berryFields})</span>
-                            <span className="text-xs text-white/60 font-normal">Cost: {nextFieldCost} Berries</span>
-                        </div>
-                    </button>
+                        label={`Berry Field (${berryFields})`}
+                        subLabel={`Cost: ${nextFieldCost} Berries`}
+                        icon={Wheat}
+                        gradientClasses="from-[#228B22] to-[#006400] hover:from-[#32CD32] hover:to-[#228B22] border-[#004d00]"
+                        variant="build"
+                    />
 
-                    <button
+                    <VillageActionButton
                         onClick={handleBuildLodge}
                         disabled={!canAffordLodge}
-                        className={`group w-full p-4 flex items-center gap-4 bg-gradient-to-br ${
-                            canAffordLodge
-                            ? 'from-[#4682B4] to-[#2F4F4F] hover:from-[#5F9EA0] hover:to-[#4682B4] border-[#1B2E2E]'
-                            : 'from-gray-700 to-gray-800 cursor-not-allowed border-gray-900 opacity-60'
-                        } text-white font-bold rounded-xl shadow-lg transition-all transform ${canAffordLodge ? 'hover:-translate-y-1 active:translate-y-0' : ''} border-b-4`}
-                    >
-                        <div className="bg-white/10 p-2 rounded-lg group-hover:scale-110 transition-transform">
-                            <Home size={24} />
-                        </div>
-                        <div className="text-left">
-                            <span className="block text-lg">Lodge ({lodges})</span>
-                            <span className="text-xs text-white/60 font-normal">Cost: {nextLodgeWoodCost} Wood</span>
-                        </div>
-                    </button>
+                        label={`Lodge (${lodges})`}
+                        subLabel={`Cost: ${nextLodgeWoodCost} Wood`}
+                        icon={Home}
+                        gradientClasses="from-[#4682B4] to-[#2F4F4F] hover:from-[#5F9EA0] hover:to-[#4682B4] border-[#1B2E2E]"
+                        variant="build"
+                    />
                 </div>
             </div>
         </section>
