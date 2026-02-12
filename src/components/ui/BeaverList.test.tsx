@@ -41,4 +41,16 @@ describe('BeaverList Component', () => {
         const healthBar1 = screen.getByTestId('beaver-health-bar-1');
         expect(healthBar1).toHaveStyle({ width: '100%' });
     });
+
+    it('renders age in years and days for older beavers', () => {
+        const mockBeavers = [
+            { name: 'Old Beaver', age: 437, health: 60, birthday: 0 },
+        ];
+        useBeaverStore.setState({ beavers: mockBeavers });
+
+        render(<BeaverList />);
+
+        expect(screen.getByText('Old Beaver')).toBeInTheDocument();
+        expect(screen.getByText('Age: 1 year and 37 days')).toBeInTheDocument();
+    });
 });
