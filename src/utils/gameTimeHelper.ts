@@ -35,3 +35,21 @@ export const formatGameTime = (totalDays: number): string => {
 
     return `Year ${year} - ${season} - Day ${seasonDay}`;
 };
+
+export const formatBeaverAge = (days: number): string => {
+    const years = Math.floor(days / DAYS_IN_YEAR);
+    const remainingDays = days % DAYS_IN_YEAR;
+
+    if (years === 0) {
+        return `${remainingDays} day${remainingDays !== 1 ? 's' : ''}`;
+    }
+
+    const yearString = `${years} year${years !== 1 ? 's' : ''}`;
+
+    if (remainingDays === 0) {
+        return yearString;
+    }
+
+    const dayString = `${remainingDays} day${remainingDays !== 1 ? 's' : ''}`;
+    return `${yearString} and ${dayString}`;
+};
