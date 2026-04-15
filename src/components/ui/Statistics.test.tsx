@@ -16,7 +16,7 @@ describe('Statistics Component', () => {
     it('renders all resource counters', () => {
         // Set initial states
         useBerryStore.setState({ berries: 10 });
-        useBeaverStore.setState({ beavers: [{ name: 'Justin', age: 2, health: 100 }] });
+        useBeaverStore.setState({ beavers: [{ name: 'Justin', age: 2, health: 100, birthday: 0 }] });
         useWoodStore.setState({ wood: 50 });
         useMudStore.setState({ mud: 20 });
 
