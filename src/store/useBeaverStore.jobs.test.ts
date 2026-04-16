@@ -89,7 +89,7 @@ describe('useBeaverStore Jobs', () => {
 
         act(() => {
             // Add a beaver with very low health so it dies in 1 tick (damage is 2.5)
-            result.current.setBeavers([{ name: 'Dying Worker', age: 10, health: 1, birthday: 0, job: 'woodGnawer' }]);
+            result.current.setBeavers([{ name: 'Dying Worker', age: 10, health: 1, job: 'woodGnawer', birthday: 0 }]);
         });
 
         // Tick 1: Starves and health drops to -1.5, dies.
