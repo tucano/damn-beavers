@@ -3,6 +3,24 @@ import { Briefcase } from 'lucide-react';
 import { useBeaverStore } from '@/store/useBeaverStore';
 import { WOOD_GNAWER_PRODUCTION_PER_TICK, TICKS_PER_DAY } from '@/config/game';
 
+
+interface JobButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    variant: 'assign' | 'unassign';
+}
+
+function JobButton({ variant, className, children, ...props }: JobButtonProps) {
+    const baseClasses = "px-2 py-1 text-xs rounded disabled:opacity-30 disabled:cursor-not-allowed";
+    const variantClasses = variant === 'assign'
+        ? "bg-green-900/40 text-green-200 hover:bg-green-800/60"
+        : "bg-red-900/40 text-red-200 hover:bg-red-800/60";
+
+    return (
+        <button className={`${baseClasses} ${variantClasses} ${className || ''}`} {...props}>
+            {children}
+        </button>
+    );
+}
+
 export function JobBoard() {
     const beavers = useBeaverStore((state) => state.beavers);
     const assignJob = useBeaverStore((state) => state.assignJob);
@@ -61,54 +79,40 @@ export function JobBoard() {
                     </div>
 
                     <div className="flex gap-2 justify-between mt-3">
-                         <div className="flex gap-1">
-                            <button
-                                onClick={() => handleUnassign('woodGnawer', -1)}
-                                disabled={woodGnawerCount === 0}
-                                className="px-2 py-1 bg-red-900/40 text-red-200 text-xs rounded hover:bg-red-800/60 disabled:opacity-30 disabled:cursor-not-allowed"
-                                title="Unassign All"
-                            >
-                                -All
-                            </button>
-                            <button
-                                onClick={() => handleUnassign('woodGnawer', 5)}
-                                disabled={woodGnawerCount < 5}
-                                className="px-2 py-1 bg-red-900/40 text-red-200 text-xs rounded hover:bg-red-800/60 disabled:opacity-30 disabled:cursor-not-allowed"
-                            >
-                                -5
-                            </button>
-                            <button
-                                onClick={() => handleUnassign('woodGnawer', 1)}
-                                disabled={woodGnawerCount === 0}
-                                className="px-2 py-1 bg-red-900/40 text-red-200 text-xs rounded hover:bg-red-800/60 disabled:opacity-30 disabled:cursor-not-allowed"
-                            >
-                                -
-                            </button>
+                        <div className="flex gap-1">
+                            {[
+                                { count: -1, label: '-All', disabled: woodGnawerCount === 0, title: 'Unassign All' },
+                                { count: 5, label: '-5', disabled: woodGnawerCount < 5 },
+                                { count: 1, label: '-', disabled: woodGnawerCount === 0 },
+                            ].map(({ count, label, disabled, title }) => (
+                                <JobButton
+                                    key={`unassign-${count}`}
+                                    variant="unassign"
+                                    onClick={() => handleUnassign('woodGnawer', count)}
+                                    disabled={disabled}
+                                    title={title}
+                                >
+                                    {label}
+                                </JobButton>
+                            ))}
                         </div>
 
                         <div className="flex gap-1">
-                            <button
-                                onClick={() => handleAssign('woodGnawer', 1)}
-                                disabled={unemployedCount === 0}
-                                className="px-2 py-1 bg-green-900/40 text-green-200 text-xs rounded hover:bg-green-800/60 disabled:opacity-30 disabled:cursor-not-allowed"
-                            >
-                                +
-                            </button>
-                             <button
-                                onClick={() => handleAssign('woodGnawer', 5)}
-                                disabled={unemployedCount < 5}
-                                className="px-2 py-1 bg-green-900/40 text-green-200 text-xs rounded hover:bg-green-800/60 disabled:opacity-30 disabled:cursor-not-allowed"
-                            >
-                                +5
-                            </button>
-                            <button
-                                onClick={() => handleAssign('woodGnawer', -1)}
-                                disabled={unemployedCount === 0}
-                                className="px-2 py-1 bg-green-900/40 text-green-200 text-xs rounded hover:bg-green-800/60 disabled:opacity-30 disabled:cursor-not-allowed"
-                                title="Assign All"
-                            >
-                                +All
-                            </button>
+                            {[
+                                { count: 1, label: '+', disabled: unemployedCount === 0 },
+                                { count: 5, label: '+5', disabled: unemployedCount < 5 },
+                                { count: -1, label: '+All', disabled: unemployedCount === 0, title: 'Assign All' },
+                            ].map(({ count, label, disabled, title }) => (
+                                <JobButton
+                                    key={`assign-${count}`}
+                                    variant="assign"
+                                    onClick={() => handleAssign('woodGnawer', count)}
+                                    disabled={disabled}
+                                    title={title}
+                                >
+                                    {label}
+                                </JobButton>
+                            ))}
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { useTimeStore } from './useTimeStore';
 
 interface BerryState {
   berries: number;
@@ -13,22 +12,16 @@ export const useBerryStore = create<BerryState>()(
     (set) => ({
       berries: 0,
       increaseBerries: (amount: number) =>
-        set((state) => ({ berries: state.berries + amount })),
+        set((state) => {
+          if (typeof amount !== 'number' || isNaN(amount)) {
+            return state;
+          }
+          return { berries: Math.max(0, state.berries + amount) };
+        }),
       reset: () => set({ berries: 0 }),
     }),
     {
       name: 'berry-storage',
     }
   )
-);
-
-// Subscribe to game tick
-useTimeStore.subscribe(
-  (state) => state.ticks,
-  (ticks, prevTicks) => {
-    if (ticks > prevTicks) {
-      // Logic for berry-specific tick actions can go here
-      // Berry consumption is currently handled by useBeaverStore subscription
-    }
-  }
 );
