@@ -61,7 +61,7 @@ export const useTimeStore = create<TimeState>()(
                             ticks: days * TICKS_PER_DAY,
                         };
                     }
-                    return persistedState;
+                    return state;
                 },
             }
         )

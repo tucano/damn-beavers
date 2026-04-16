@@ -3,6 +3,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { VillageActions } from './VillageActions';
 import { useBerryStore } from '@/store/useBerryStore';
 import { useWoodStore } from '@/store/useWoodStore';
+import { useBerryFieldStore } from '@/store/useBerryFieldStore';
+import { useLodgeStore } from '@/store/useLodgeStore';
 
 // Mock Lucide React icons
 vi.mock('lucide-react', () => ({
@@ -18,6 +20,8 @@ describe('VillageActions Component', () => {
     beforeEach(() => {
         useBerryStore.setState({ berries: 0 });
         useWoodStore.setState({ wood: 0 });
+        useBerryFieldStore.setState({ berryFields: 0 });
+        useLodgeStore.setState({ lodges: 0 });
     });
 
     it('renders the "Gather Berries" button', () => {
@@ -81,5 +85,67 @@ describe('VillageActions Component', () => {
         // Restore original actions
         useBerryStore.setState({ increaseBerries: originalIncreaseBerries });
         useWoodStore.setState({ increaseWood: originalIncreaseWood });
+    });
+
+    it('disables "Berry Field" button when berries are insufficient', () => {
+        useBerryStore.setState({ berries: 5 }); // Cost is 10
+        render(<VillageActions />);
+        const button = screen.getByRole('button', { name: /berry field/i });
+        expect(button).toBeDisabled();
+    });
+
+    it('enables "Berry Field" button when berries are sufficient', () => {
+        useBerryStore.setState({ berries: 10 }); // Cost is 10
+        render(<VillageActions />);
+        const button = screen.getByRole('button', { name: /berry field/i });
+        expect(button).not.toBeDisabled();
+    });
+
+    it('calls buildBerryField when "Berry Field" is clicked', () => {
+        const buildBerryFieldSpy = vi.fn();
+        const originalBuildBerryField = useBerryFieldStore.getState().buildBerryField;
+
+        useBerryStore.setState({ berries: 10 });
+        useBerryFieldStore.setState({ buildBerryField: buildBerryFieldSpy });
+
+        render(<VillageActions />);
+
+        const button = screen.getByRole('button', { name: /berry field/i });
+        fireEvent.click(button);
+
+        expect(buildBerryFieldSpy).toHaveBeenCalled();
+
+        useBerryFieldStore.setState({ buildBerryField: originalBuildBerryField });
+    });
+
+    it('disables "Lodge" button when wood is insufficient', () => {
+        useWoodStore.setState({ wood: 20 }); // Cost is 50
+        render(<VillageActions />);
+        const button = screen.getByRole('button', { name: /lodge/i });
+        expect(button).toBeDisabled();
+    });
+
+    it('enables "Lodge" button when wood is sufficient', () => {
+        useWoodStore.setState({ wood: 50 }); // Cost is 50
+        render(<VillageActions />);
+        const button = screen.getByRole('button', { name: /lodge/i });
+        expect(button).not.toBeDisabled();
+    });
+
+    it('calls buildLodge when "Lodge" is clicked', () => {
+        const buildLodgeSpy = vi.fn();
+        const originalBuildLodge = useLodgeStore.getState().buildLodge;
+
+        useWoodStore.setState({ wood: 50 });
+        useLodgeStore.setState({ buildLodge: buildLodgeSpy });
+
+        render(<VillageActions />);
+
+        const button = screen.getByRole('button', { name: /lodge/i });
+        fireEvent.click(button);
+
+        expect(buildLodgeSpy).toHaveBeenCalled();
+
+        useLodgeStore.setState({ buildLodge: originalBuildLodge });
     });
 });
