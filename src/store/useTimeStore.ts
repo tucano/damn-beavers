@@ -54,10 +54,11 @@ export const useTimeStore = create<TimeState>()(
                 name: 'time-storage',
                 version: 1,
                 migrate: (persistedState: unknown, version: number) => {
+                    const state = persistedState as Record<string, unknown>;
                     if (version === 0 || version === undefined) {
-                        const days = (persistedState as { days?: number })?.days || 0;
+                        const days = (state.days as number) || 0;
                         return {
-                            ...(persistedState as object),
+                            ...state,
                             ticks: days * TICKS_PER_DAY,
                         };
                     }
