@@ -1,12 +1,23 @@
+import { useMemo } from 'react';
 import { Briefcase } from 'lucide-react';
 import { useBeaverStore } from '@/store/useBeaverStore';
 import { WOOD_GNAWER_PRODUCTION_PER_TICK, TICKS_PER_DAY } from '@/config/game';
 
 export function JobBoard() {
-    const { beavers, assignJob, unassignJob } = useBeaverStore();
+    const beavers = useBeaverStore((state) => state.beavers);
+    const assignJob = useBeaverStore((state) => state.assignJob);
+    const unassignJob = useBeaverStore((state) => state.unassignJob);
 
-    const unemployedCount = beavers.filter((b) => !b.job).length;
-    const woodGnawerCount = beavers.filter((b) => b.job === 'woodGnawer').length;
+    const { unemployedCount, woodGnawerCount } = useMemo(() => {
+        return beavers.reduce(
+            (acc, b) => {
+                if (!b.job) acc.unemployedCount++;
+                else if (b.job === 'woodGnawer') acc.woodGnawerCount++;
+                return acc;
+            },
+            { unemployedCount: 0, woodGnawerCount: 0 }
+        );
+    }, [beavers]);
 
     const handleAssign = (job: string, count: number) => {
         if (count === -1) { // All
