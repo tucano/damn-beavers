@@ -24,6 +24,29 @@ describe('useBerryStore', () => {
     expect(result.current.berries).toBe(10);
   });
 
+  it('should ignore non-numeric amounts', () => {
+    const { result } = renderHook(() => useBerryStore());
+
+    act(() => {
+      result.current.increaseBerries(10);
+      result.current.increaseBerries(NaN);
+      result.current.increaseBerries('invalid' as unknown as number);
+    });
+
+    expect(result.current.berries).toBe(10);
+  });
+
+  it('should not allow berries to drop below zero', () => {
+    const { result } = renderHook(() => useBerryStore());
+
+    act(() => {
+      result.current.increaseBerries(10);
+      result.current.increaseBerries(-15);
+    });
+
+    expect(result.current.berries).toBe(0);
+  });
+
   it('should reset berries to 0', () => {
     const { result } = renderHook(() => useBerryStore());
 

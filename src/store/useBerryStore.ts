@@ -12,7 +12,12 @@ export const useBerryStore = create<BerryState>()(
     (set) => ({
       berries: 0,
       increaseBerries: (amount: number) =>
-        set((state) => ({ berries: state.berries + amount })),
+        set((state) => {
+          if (typeof amount !== 'number' || isNaN(amount)) {
+            return state;
+          }
+          return { berries: Math.max(0, state.berries + amount) };
+        }),
       reset: () => set({ berries: 0 }),
     }),
     {
